@@ -1,0 +1,360 @@
+@charset "UTF-8";
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,400italic);
+
+html, body{
+	height: 100%;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 12px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	
+	background: #21b9da; /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover,  #21b9da 0%, #1a9ecc 100%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#21b9da), color-stop(100%,#1a9ecc)); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover,  #21b9da 0%,#1a9ecc 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover,  #21b9da 0%,#1a9ecc 100%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover,  #21b9da 0%,#1a9ecc 100%); /* IE10+ */
+	background: radial-gradient(ellipse at center,  #21b9da 0%,#1a9ecc 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#21b9da', endColorstr='#1a9ecc',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */	
+}
+
+/* header style */
+
+body > header {
+	position: absolute;
+	top: 0;
+	max-width: 1417px;
+	width: 100%;
+	height: 85px;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+}
+
+body > header > div {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+body > header > div.top {
+	z-index: 1;
+}
+
+body > header > div.bottom {
+	z-index: 0;
+}
+
+h1 a svg {
+	width: 208px;
+	height: 53px;
+	margin-left: 20px
+}
+
+/* header navigation */
+body > header nav {
+	float: right;
+	position: absolute;
+	right: 20px;
+	top: 30px;
+}
+
+body > header nav ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	position: relative;
+}
+
+body > header nav ul > li {
+	float: left;
+	position: relative;
+}
+
+body > header nav ul li a {
+	color: #e5e5e5;
+	font-size: 1.2em;
+	text-decoration: none;
+	padding: 5px 10px;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+}
+
+body > header nav ul li a:hover {
+	background: #5f5f5f;
+}
+
+/* header sub-navigation */
+body > header nav ul li.dropdown > a {
+	padding-right: 25px;
+}
+
+body > header nav ul li.dropdown > a::after {
+	content: "\f0dd";
+	color: #e5e5e5;
+	font-family: FontAwesome;
+	margin-left: 5px;
+	position: absolute;
+	right: 10px;
+	top: 3px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body > header nav ul li.dropdown > ul {
+	display: none;
+	background: #fff;
+	padding: 10px;
+	border-radius: 3px;
+	position: absolute;
+	right: 0;
+	width: 125px;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, .2);
+}
+
+body > header nav ul li.dropdown > ul::after {
+	content: "\f0d8";
+	color: #fff;
+	font-family: FontAwesome;
+	margin-left: 5px;
+	position: absolute;
+	font-size: 1.3em;
+	right: 10px;
+	top: -11px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body > header nav ul li.dropdown:hover > ul {
+	display: block;
+}
+
+body > header nav ul li.dropdown:hover > ul > li {
+	display: block;
+	width: 100%;
+}
+
+body > header nav ul li.dropdown:hover > ul > li a {
+	padding: 5px 5px;
+	color: #515151;
+	display: block;
+}
+
+body > header nav ul li.dropdown:hover > ul > li a i {
+	margin-right: 5px;
+}
+
+body > header nav ul li.dropdown:hover > ul > li a:hover {
+	background: #eaeaea;
+}
+
+#bgLogo {
+	width: 100%;
+	height: 100%;
+	background: url('../img/bg-logo.png') no-repeat left top;
+	position: absolute;
+	z-index: 1;
+}
+
+#bgLogo::before {
+    width: 23px;
+    content: " ";
+    position: absolute;
+    left: -23px;
+    top: 0;
+    height: 85px;
+	background: url('../img/bg-logo-cap.png') no-repeat left top;
+}
+
+#bgNav {
+	width: 100%;
+	height: 100%;
+	background: url('../img/bg-nav.png') no-repeat right top;
+	position: absolute;
+	z-index: 0;
+}
+
+#bgNav::after {
+    width: 23px;
+    content: " ";
+    position: absolute;
+    right: -23px;
+    top: 0;
+    height: 85px;
+	background: url('../img/bg-nav-cap.png') no-repeat left top;
+}
+
+@media all and (max-width: 1417px) { /* header cuts off at this point // hide caps */
+	#bgLogo::before {
+		display: none;
+	}
+	
+	#bgNav::after {
+		display: none;
+	}
+}
+
+/* footer style */
+
+body > footer {
+	/*position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;*/
+	max-width: 1440px;
+	width: 100%;
+	margin: 0 auto;
+	height: 42px;
+}
+
+body > footer > div {
+	float: left;
+	height: 100%;;
+	background-repeat: no-repeat;
+	width: 100%;
+	max-width: 1415px;
+	background-position: right bottom;
+	position: relative;
+}
+
+body > footer > div::after{
+    width: 25px;
+    content: " ";
+    position: absolute;
+    right: -25px;
+    top: 0;
+    height: 100%;
+	background-position: right;
+	background-repeat: no-repeat;
+}
+
+body > footer nav ul {
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	position: absolute;
+	bottom: 8px;
+	right: 0;
+}
+
+body > footer nav ul li {
+	float: left;
+}
+
+body > footer nav ul li a {
+	text-decoration: none;
+}
+
+body > footer nav ul li a:hover {
+	text-decoration: underline;
+}
+
+body > footer nav ul li::after {
+    content: "|";
+	margin: 0 10px;
+}
+
+body > footer nav ul li:last-child::after {
+    content: "";
+	margin: 0 20px 0 0;
+}
+
+body > footer.dark {
+	color: #515151;
+}
+
+body > footer.dark ul li a {
+	color: #888;
+}
+
+body > footer.dark ul li a:hover {
+	color: #aaa;
+}
+
+body > footer.blue {
+	color: #3ea9ce;
+}
+
+body > footer.blue ul li a {
+	color: #97e4ff;
+}
+
+body > footer.blue ul li a:hover {
+	color: #c1efff;
+}
+
+body > footer.dark > div {
+	background-image: url('../img/bg-footer-dark.png');
+}
+
+body > footer.blue > div {
+	background-image: url('../img/bg-footer-blue.png');
+}
+
+body > footer.dark > div:after{
+	background-image: url('../img/bg-footer-dark-cap.png');
+}
+
+body > footer.blue > div:after{
+	background-image: url('../img/bg-footer-blue-cap.png');
+}
+
+body > .outerWrapper {
+  	min-height: 100%;
+  	/* equal to footer height */
+	margin-bottom: -42px; 
+}
+
+body > .outerWrapper:after {
+  	content: "";
+ 	 display: block;
+}
+
+body > footer, body > .outerWrapper:after {
+  	/* .push must be the same height as footer */
+	height: 42px; 
+}
+
+#home > footer {
+	background: #343434;	
+}
+
+@media all and (max-width: 1415px) { /* footer cuts off at this point // hide caps */
+	body > footer > div::after{
+		display: none;
+	}
+}
+
+#home section {
+	height: 500px;
+}
+
+section#welcome {
+	height: 750px;
+}
+
+#features {
+	background: #fff;
+}
+
+#about {
+	background: #f5f5f5;
+}
+
+#contact {
+	background: #343434;
+}
+
+.innerWrapper {
+	max-width: 960px;
+	width: 100%;
+	padding: 20px;
+	margin: 0 auto;
+}
