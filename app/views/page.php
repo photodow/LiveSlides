@@ -8,6 +8,7 @@
 		
         <?php echo $style; ?>
 		<link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="icon" type="image/png" href="/img/icon.png" />
 
 	</head>
 	<body id="<?php echo $page; ?>">

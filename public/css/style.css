@@ -200,20 +200,20 @@ body > header nav ul li.dropdown:hover > ul > li a:hover {
 	}
 }
 
+@media all and (max-width: 1359px) { /* header cuts off at this point // hide caps */
+
+}
+
 /* footer style */
 
-body > footer {
-	/*position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;*/
+body > footer > .inner-wrapper {
 	max-width: 1440px;
 	width: 100%;
 	margin: 0 auto;
 	height: 42px;
 }
 
-body > footer > div {
+body > footer > .inner-wrapper > nav {
 	float: left;
 	height: 100%;;
 	background-repeat: no-repeat;
@@ -223,7 +223,7 @@ body > footer > div {
 	position: relative;
 }
 
-body > footer > div::after{
+body > footer > .inner-wrapper > nav::after{
     width: 25px;
     content: " ";
     position: absolute;
@@ -234,7 +234,7 @@ body > footer > div::after{
 	background-repeat: no-repeat;
 }
 
-body > footer nav ul {
+body > footer > .inner-wrapper > nav ul {
 	overflow: hidden;
 	margin: 0;
 	padding: 0;
@@ -244,24 +244,24 @@ body > footer nav ul {
 	right: 0;
 }
 
-body > footer nav ul li {
+body > footer > .inner-wrapper > nav ul li {
 	float: left;
 }
 
-body > footer nav ul li a {
+body > footer > .inner-wrapper > nav ul li a {
 	text-decoration: none;
 }
 
-body > footer nav ul li a:hover {
+body > footer > .inner-wrapper > nav ul li a:hover {
 	text-decoration: underline;
 }
 
-body > footer nav ul li::after {
+body > footer > .inner-wrapper > nav ul li::after {
     content: "|";
 	margin: 0 10px;
 }
 
-body > footer nav ul li:last-child::after {
+body > footer > .inner-wrapper > nav ul li:last-child::after {
     content: "";
 	margin: 0 20px 0 0;
 }
@@ -270,11 +270,11 @@ body > footer.dark {
 	color: #515151;
 }
 
-body > footer.dark ul li a {
+body > footer.dark > .inner-wrapper > nav ul li a {
 	color: #888;
 }
 
-body > footer.dark ul li a:hover {
+body > footer.dark > .inner-wrapper > nav ul li a:hover {
 	color: #aaa;
 }
 
@@ -282,42 +282,42 @@ body > footer.blue {
 	color: #3ea9ce;
 }
 
-body > footer.blue ul li a {
+body > footer.blue > .inner-wrapper > nav ul li a {
 	color: #97e4ff;
 }
 
-body > footer.blue ul li a:hover {
+body > footer.blue > .inner-wrapper > nav ul li a:hover {
 	color: #c1efff;
 }
 
-body > footer.dark > div {
+body > footer.dark > .inner-wrapper > nav {
 	background-image: url('../img/bg-footer-dark.png');
 }
 
-body > footer.blue > div {
+body > footer.blue > .inner-wrapper > nav {
 	background-image: url('../img/bg-footer-blue.png');
 }
 
-body > footer.dark > div:after{
+body > footer.dark > .inner-wrapper > nav::after{
 	background-image: url('../img/bg-footer-dark-cap.png');
 }
 
-body > footer.blue > div:after{
+body > footer.blue > .inner-wrapper > nav::after{
 	background-image: url('../img/bg-footer-blue-cap.png');
 }
 
-body > .outerWrapper {
+body > .contentWrapper {
   	min-height: 100%;
   	/* equal to footer height */
 	margin-bottom: -42px; 
 }
 
-body > .outerWrapper:after {
+body > .contentWrapper:after {
   	content: "";
  	 display: block;
 }
 
-body > footer, body > .outerWrapper:after {
+body > footer, body > .contentWrapper:after {
   	/* .push must be the same height as footer */
 	height: 42px; 
 }
@@ -327,16 +327,12 @@ body > footer, body > .outerWrapper:after {
 }
 
 @media all and (max-width: 1415px) { /* footer cuts off at this point // hide caps */
-	body > footer > div::after{
+	body > footer > .inner-wrapper > nav::after{
 		display: none;
 	}
 }
 
 #home section {
-	height: 500px;
-}
-
-section#welcome {
 	height: 750px;
 }
 
