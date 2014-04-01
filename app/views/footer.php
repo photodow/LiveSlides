@@ -8,7 +8,6 @@
                 <li><a href="/#contact" title="Contact">Contact</a></li>-->
                 <li><a href="/login" title="Login">Login</a></li>
                 <li><a href="/register" title="Register">Register</a></li>
-                <li><a href="/sitemap" title="Site Map">Site Map</a></li>
             </ul>
         </nav>
     </div>

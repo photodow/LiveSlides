@@ -1,6 +1,6 @@
 <section id="welcome">
 	<div class="innerWrapper">
-		Welcome
+    	Welcome Message
     </div>
 </section>
 <section id="features">
