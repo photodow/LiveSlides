@@ -31,6 +31,16 @@ Route::get('/login', function() {
 		->nest('localScripts', 'localScript.login');
 });
 
+// Forgot Password
+Route::get('/password', function() {
+	return View::make('page', array('page' => 'password', 'title' => 'Forgot Password'))
+		->nest('localStyles', 'localStyle.password')
+		->nest('header', 'header')
+		->nest('pageContent', 'password')
+		->nest('footer', 'footer', array('style' => 'dark'))
+		->nest('localScripts', 'localScript.password');
+});
+
 // Register
 Route::get('/register', function() {
 	return View::make('page', array('page' => 'register', 'title' => 'Register Account'))
