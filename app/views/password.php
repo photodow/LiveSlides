@@ -9,7 +9,7 @@
         <input type="text" name="email" id="email" />
     </div>
 	<div class="last">
-        <button name="submit" id="submit" class="submit">Send <i class="fa fa-envelope"></i></button>
+        <button name="submit" id="submit" class="submit">Send <i class="icon-envelope"></i></button>
     </div>
     <ul class="moreinfo">
         <li><a href="/login" title="Click here to login">Login</a></li>

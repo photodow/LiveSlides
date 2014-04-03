@@ -1,71 +1,110 @@
-<section class="welcome">
-	<div class="innerWrapper">
-    	Welcome Message
-    </div>
+<section id="welcome" class="welcome">
+	<article id="presentation">
+    	<button class="left"><i class="icon-chevron-left"></i></button>
+    	<ul class="pages">
+        	<li class="page one active">
+            	<div class="centVert">
+                	<i class="icon-liveslides"></i>
+                	<h1>Audience Devices Sync Live</h1>
+                	<p>Audience Members Can View Your Presentation From Their Mobile Devices</p>
+                    <p><a href="/register" class="button" title="Click here and get started by registering today!">Get Started <i class="icon-caret-right"></i></a></p>
+ 				</div>
+         	</li>
+        	<li class="page">Page #2</li>
+        </ul>
+    	<button class="right"><i class="icon-chevron-right"></i></button>
+	</article>
 </section>
-<section class="features">
+<section id="features" class="features">
 	<div class="innerWrapper">
 		<ul>
         	<li class="linebreak">
             	<h2>
-                	<i class="fa fa-search"></i>
-                    Title Goes Here
+                	<i class="icon-eye"></i>
+                    Live Presentations
                 </h2>
-                <p>Caring beyond the nature of the emphasis and profound that produced it can we try to be better is very minimalist way something memorable and developing anything that, and simplicity is.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim sodales augue eu fringilla. Aenean a pretium augue, eu orem.</p>
             </li>
         	<li>
             	<h2>
-                	<i class="fa fa-search"></i>
-                    Title Goes Here
+                	<i class="icon-pencil"></i>
+                    Presentation Editor
                 </h2>
-                <p>Caring beyond the nature of the emphasis and profound that produced it can we try to be better is very minimalist way something memorable and developing anything that, and simplicity is.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim sodales augue eu fringilla. Aenean a pretium augue, eu orem.</p>
             </li>
         	<li>
             	<h2>
-                	<i class="fa fa-search"></i>
-                    Title Goes Here
+                	<i class="icon-mail-forward"></i>
+                    Share Presentations
                 </h2>
-                <p>Caring beyond the nature of the emphasis and profound that produced it can we try to be better is very minimalist way something memorable and developing anything that, and simplicity is.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim sodales augue eu fringilla. Aenean a pretium augue, eu orem.</p>
             </li>
         	<li class="linebreak">
             	<h2>
-                	<i class="fa fa-search"></i>
-                    Title Goes Here
+                	<i class="icon-mobile-phone"></i>
+                    Mobile Access
                 </h2>
-                <p>Caring beyond the nature of the emphasis and profound that produced it can we try to be better is very minimalist way something memorable and developing anything that, and simplicity is.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim sodales augue eu fringilla. Aenean a pretium augue, eu orem.</p>
             </li>
         	<li>
             	<h2>
-                	<i class="fa fa-search"></i>
-                    Title Goes Here
+                	<i class="icon-search"></i>
+                    Search Engine Friendly
                 </h2>
-                <p>Caring beyond the nature of the emphasis and profound that produced it can we try to be better is very minimalist way something memorable and developing anything that, and simplicity is.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim sodales augue eu fringilla. Aenean a pretium augue, eu orem.</p>
             </li>
         	<li>
             	<h2>
-                	<i class="fa fa-search"></i>
-                    Title Goes Here
+                	<i class="icon-cloud"></i>
+                    Available in the Cloud
                 </h2>
-                <p>Caring beyond the nature of the emphasis and profound that produced it can we try to be better is very minimalist way something memorable and developing anything that, and simplicity is.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim sodales augue eu fringilla. Aenean a pretium augue, eu orem.</p>
             </li>
         </ul>
     </div>
 </section>
-<section class="about">
+<section id="about" class="about">
 	<div class="innerWrapper">
-        <h2>About</h2> <!-- TO DO: Add custom LiveSlide Font Icon -->
+        <h2><i class="icon-liveslides"></i> About Us</h2> <!-- TO DO: Add custom LiveSlide Font Icon -->
         <div class="two-col">
-            <p>[Dummy Text] : Their design is in many of care. That's a product. Great design as possible advantage. It is intended to mean nothing must be kept. It and restrained, that the defining qualities are indifferent to be used.</p>
-            <p>Zero out some things which are seldom better. Good design is made to be, but very often diagrams rely solely on going until you go, lying comes from a very minimalist way. Zero out your perception of material in simplicity is longlasting. Design is incredibly challenging. We try to the particular mode of seeing and i hope that it does not an object and product is honest!</p>
-            <p>Designing and often design is making something works of simplicity is not make a product useful. The way beyond the content. People know how complicated problems without letting people know how complicated problems without letting people know how it really is.</p>
-            <p>One level of british culture, well, measured more in efficiency. That's an appearance game we're surrounded by seem trivial. I think there are about powerpoint should therefore be used solely on the particular mode of information overload, well, but that changes function like tools.</p>
-            <p>Caring beyond the nature of the emphasis and profound that produced it can we try to be better is very minimalist way something memorable and developing anything that, and simplicity is. Products have always thought about powerpoint should be both neutral and ornamentation. Good design should be both neutral and original thinking.</p>
-			<p>Todays graphics use: ease and some universal cognitive style of analysis. I hope that we need that is not an interesting thing about an exploration of information and aesthetic. The essential is unobtrusive. The traditions of simplicity is derived from the last detail. The computer. Good design. People know how it does not only functional, not attempt to.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim sodales augue eu fringilla. Aenean a pretium augue, eu elementum lorem. Phasellus accumsan felis vitae dolor iaculis sagittis. Mauris sollicitudin purus tellus, a sodales nisl rutrum a. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec sit amet fringilla nibh. Aliquam tincidunt accumsan aliquet.</p>
+            <p>In fringilla elit lorem, lacinia dictum tortor molestie at. Fusce sagittis erat diam, sit amet molestie sem sodales et. Nulla lobortis aliquam tortor, sed ultricies odio porta eu. Nunc fringilla nibh id urna sagittis convallis. Nam sed mauris lobortis, euismod neque eget, varius lectus. Vestibulum id faucibus orci, vel sagittis felis. Pium sem, vitae pellentesque nisl est sit amet lacus. Phasellus tempor arcu non mauris convallis congue. Duis vel sagittis sapien, at porta risus. Vivamus pellentesque. tiam commodo mi lorem, vel vulputate iaculis elit. Aliquam gravida arcu sit amet commodo egestas.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim sodales augue eu fringilla. Aenean a pretium augue, eu elementum lorem. Phasellus accumsan felis vitae dolor iaculis sagittis. Mauris sollicitudin purus tellus, a sodales nisl rutrum a. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec sit amet fringilla nibh. Aliquam tincidunt accumsan aliquet.</p>
+            <p>In fringilla elit lorem, lacinia dictum tortor molestie at. Fusce sagittis erat diam, sit amet molestie sem sodales et. Nulla lobortis aliquam tortor, sed ultricies odio porta eu. Nunc fringilla nibh id urna sagittis convallis. Nam sed mauris lobortis, euismod neque eget, varius lectus. Vestibulum id faucibus orci, vel sagittis felis. Pium sem, vitae pellentesque nisl est sit amet lacus. Phasellus tempor arcu non mauris convallis congue. Duis vel sagittis sapien, at porta risus. Vivamus pellentesque. tiam commodo mi lorem, vel vulputate iaculis elit. Aliquam gravida arcu sit amet commodo egestas.</p>
         </div>
     </div>
 </section>
-<section class="contact">
+<section id="contact" class="contact">
 	<div class="innerWrapper">
-	Contact Section
+    	<section class="left">
+        	<h2><i class="icon-envelope"></i> Contact Us</h2>
+            <form id="contactForm" action="" method="POST">
+                <div>
+                    <label for="name">Your Name</label>
+                    <input type="text" name="name" id="name" class="name" />
+                </div>
+                <div>
+                    <label for="email">Your Email Address</label>
+                    <input type="text" name="email" id="email" class="email" />
+                </div>
+                <div>
+                    <label for="subject">Subject</label>
+                    <input type="text" name="subject" id="subject" />
+                </div>
+                <div>
+                    <label for="message">Message</label>
+                    <textarea name="message" id="message"></textarea>
+                </div>
+                <div class="last">
+                    <button name="submit" id="submit" class="submit">Send <i class="icon-envelope"></i></button>
+                </div>
+            </form>
+        </section>
+        <section class="right">
+        	<h2><i class="icon-heart"></i> Special Thanks</h2>
+            <ul>
+            	<li>Coming Soon</li>
+            </ul>
+        </section>
     </div>
 </section>

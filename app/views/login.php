@@ -12,7 +12,7 @@
         <input type="password" name="password" id="password" />
     </div>
 	<div class="last">
-        <button name="submit" id="submit" class="submit">Login <i class="fa fa-sign-in"></i></button>
+        <button name="submit" id="submit" class="submit">Login <i class="icon-sign-in"></i></button>
     </div>
     <ul class="moreinfo">
         <li><a href="/password" title="Click here to change your password">Forgot Password?</a></li>

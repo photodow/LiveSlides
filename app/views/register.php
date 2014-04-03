@@ -24,7 +24,7 @@
         <input type="password" name="verifypassword" id="verifypassword" />
     </div>
 	<div class="last">
-        <button name="submit" id="submit" class="submit">Register <i class="fa fa-pencil-square-o"></i></button>
+        <button name="submit" id="submit" class="submit">Register <i class="icon-edit"></i></button>
     </div>
     <ul class="moreinfo">
         <li>Already have an account? <a href="/login" title="Click here to login">Login</a></li>
