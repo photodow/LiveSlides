@@ -56,7 +56,7 @@ Route::get('/profile/{userId?}', function($userId = null) { // default current u
 	return View::make('page', array('page' => 'profile', 'title' => 'Profile'))
 		->nest('localStyles', 'localStyle.profile')
 		->nest('header', 'header')
-		->nest('pageContent', 'profile')
+		->nest('pageContent', 'profile', array('sidebar' => View::make('sidebar')))
 		->nest('footer', 'footer', array('style' => 'dark'))
 		->nest('localScripts', 'localScript.profile');
 });
@@ -66,7 +66,7 @@ Route::get('/slides/{userId?}', function($userId = null) { // default current us
 	return View::make('page', array('page' => 'slides', 'title' => 'View All Slides'))
 		->nest('localStyles', 'localStyle.slides')
 		->nest('header', 'header')
-		->nest('pageContent', 'slides')
+		->nest('pageContent', 'slides', array('sidebar' => View::make('sidebar')))
 		->nest('footer', 'footer', array('style' => 'dark'))
 		->nest('localScripts', 'localScript.slides');
 });
