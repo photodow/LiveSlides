@@ -634,6 +634,10 @@ form .moreinfo li a:active {
 #home .contact .left {
 	float: left;
 	width: 62.5%;
+	background: none;
+	box-shadow: none;
+	margin: 0;
+	padding: 0;
 }
 
 #home .contact .right {
