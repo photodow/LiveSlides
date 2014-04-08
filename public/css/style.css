@@ -739,6 +739,11 @@ form .moreinfo li a:active {
 	height: 100%;
 	width: 100%;
 	display: none;
+	border: 0;
+	padding: 1px;
+}
+
+#home #presentation .pages {
 	border: 1px dashed rgba(255,255,255, .2);
 }
 
@@ -882,7 +887,7 @@ form .moreinfo li a:active {
 
 #profile .profile header aside.social ul li a {
 	text-decoration: none;
-	text-shadow: 0 1px 2px rgba(0,0,0, .2);
+	/*text-shadow: 0 1px 2px rgba(0,0,0, .2);*/
 }
 
 #profile .profile header aside.social ul li a:active {
