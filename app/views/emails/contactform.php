@@ -5,8 +5,8 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
+		<p>From: <a href="mailto:<?php echo $email; ?>" title="<?php echo $name; ?>,&lt;<?php echo $email; ?>&gt;"><?php echo $name; ?></a></p>
 		<h2><?php echo $subject; ?></h2>
-		<p>From <<?php echo $email; ?>>, '<?php echo $name; ?>'</p>
-        <p><?php echo $email; ?></p>
+        <p><?php echo $messageBody; ?></p>
 	</body>
 </html>

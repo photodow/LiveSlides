@@ -78,27 +78,34 @@
 	<div class="innerWrapper">
     	<section class="left">
         	<h2><i class="icon-envelope"></i> Contact Us</h2>
-            <form id="contactForm" action="/process/contactform" method="POST">
-                <div>
-                    <label for="name">Your Name</label>
-                    <input type="text" name="name" id="name" class="name" />
+            <div class="contactFormWrapper">
+                <div class="overlayMessage">
+                	<div class="centVert">
+                    	<p>testing</p>
+                    </div>
                 </div>
-                <div>
-                    <label for="email">Your Email Address</label>
-                    <input type="text" name="email" id="email" class="email" />
-                </div>
-                <div>
-                    <label for="subject">Subject</label>
-                    <input type="text" name="subject" id="subject" />
-                </div>
-                <div>
-                    <label for="message">Message</label>
-                    <textarea name="message" id="message"></textarea>
-                </div>
-                <div class="last">
-                    <button name="submit" id="submit" class="submit">Send <i class="icon-envelope"></i></button>
-                </div>
-            </form>
+                <form id="contactForm" action="/process/contactform" method="POST">
+                    <div>
+                        <label for="name">Your Name</label>
+                        <input type="text" name="name" id="name" class="name" />
+                    </div>
+                    <div>
+                        <label for="email">Your Email Address</label>
+                        <input type="text" name="email" id="email" class="email" />
+                    </div>
+                    <div>
+                        <label for="subject">Subject</label>
+                        <input type="text" name="subject" id="subject" />
+                    </div>
+                    <div>
+                        <label for="message">Message</label>
+                        <textarea name="message" id="message"></textarea>
+                    </div>
+                    <div class="last">
+                        <button name="submit" id="submit" class="submit">Send <i class="icon-envelope"></i></button>
+                    </div>
+                </form>
+            </div>
         </section>
         <section class="right">
         	<h2><i class="icon-heart"></i> Special Thanks</h2>

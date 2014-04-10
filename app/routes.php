@@ -119,16 +119,37 @@ Route::post('/process/login', function(){
 // process homepage contact form
 Route::post('/process/contactform', function(){
 	
-	$name = $_POST['name'];
-	$email = $_POST['email'];
-	$subject = $_POST['subject'];
-	$message = $_POST['message'];
-	
-	Mail::send('emails.contactform', array('name' => $name, 'email' => $email, 'subject' => $subject, 'message' => $message), function($message){
-		$message->to('photodow@gmail.com', 'James Dow')->subject('LiveSlides');
-	});
+	$validator = Validator::make(
+		array(
+			'name' => $_POST['name'],
+			'email' => $_POST['email'],
+			'subject' => $_POST['subject'],
+			'message' => $_POST['message']
+		),
+		array(
+			'name' => 'required',
+			'email' => 'required|email',
+			'subject' => 'required|max:32',
+			'message' => 'required'
+		)
+	);
+	if ($validator->fails())
+	{
+		$page = 'false';
+	}else{
+		$name = $_POST['name'];
+		$email = $_POST['email'];
+		$subject = $_POST['subject'];
+		$message = $_POST['message'];
+		
+		Mail::send('emails.contactform', array('name' => $name, 'email' => $email, 'subject' => $subject, 'messageBody' => $message), function($message){
+			$message->to('photodow@gmail.com', 'James Dow')->subject($_POST['subject']);
+		});
+		
+		$page = 'true';
+	}
 				
-	return Redirect::route('login', array('error' => 'error'));
+	return '{"sent":"' . $page . '"}';
 	
 });
 

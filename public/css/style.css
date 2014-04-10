@@ -665,6 +665,27 @@ form .moreinfo li a:active {
 	padding: 0;
 	background: 0;
 	box-shadow: none;
+	transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+}
+
+#home .contact .contactFormWrapper {
+	position: relative;	
+}
+
+#home .contact .contactFormWrapper .overlayMessage {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #343434;
+	display: none;
+	opacity: 0;
+	transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
 }
 
 #home #contactForm .name, #home #contactForm .email {
