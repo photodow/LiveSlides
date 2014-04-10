@@ -11,94 +11,183 @@
 |
 */
 
+
 // Home
 Route::get('/', function() {
-	return View::make('page', array('page' => 'home', 'title' => 'Present Slides Live'))
+	$page = View::make('page', array('page' => 'home', 'title' => 'Present Slides Live'))
 		->nest('localStyles', 'localStyle.home')
 		->nest('header', 'header')
 		->nest('pageContent', 'home')
 		->nest('footer', 'footer', array('style' => 'blue'))
 		->nest('localScripts', 'localScript.home');
+		
+	return $page;
+	
 });
 
+function noAuth($page){
+	if(Auth::check()){
+		$page = Redirect::route('profile');
+	}else{
+		$page = $page;
+	}
+	
+	return $page;
+}
+
 // Login
-Route::get('/login', function() {
-	return View::make('page', array('page' => 'login', 'title' => 'Login'))
-		->nest('localStyles', 'localStyle.login')
-		->nest('header', 'header')
-		->nest('pageContent', 'login')
-		->nest('footer', 'footer', array('style' => 'dark'))
-		->nest('localScripts', 'localScript.login');
-});
+Route::get('/login/{error?}', array('as' => 'login', function($error = null) {
+	
+	$page = noAuth(View::make('page', array('page' => 'login', 'title' => 'Login'))
+			->nest('localStyles', 'localStyle.login')
+			->nest('header', 'header')
+			->nest('pageContent', 'login', array('error' => $error))
+			->nest('footer', 'footer', array('style' => 'dark'))
+			->nest('localScripts', 'localScript.login'));
+		
+	return $page;
+	
+}));
 
 // Forgot Password
 Route::get('/password', function() {
-	return View::make('page', array('page' => 'password', 'title' => 'Forgot Password'))
+	
+	$page = noAuth(View::make('page', array('page' => 'password', 'title' => 'Forgot Password'))
 		->nest('localStyles', 'localStyle.password')
 		->nest('header', 'header')
 		->nest('pageContent', 'password')
 		->nest('footer', 'footer', array('style' => 'dark'))
-		->nest('localScripts', 'localScript.password');
+		->nest('localScripts', 'localScript.password'));
+		
+	return $page;
+	
 });
 
 // Register
 Route::get('/register', function() {
-	return View::make('page', array('page' => 'register', 'title' => 'Register Account'))
+	
+	$page = noAuth(View::make('page', array('page' => 'register', 'title' => 'Register Account'))
 		->nest('localStyles', 'localStyle.register')
 		->nest('header', 'header')
 		->nest('pageContent', 'register')
 		->nest('footer', 'footer', array('style' => 'dark'))
-		->nest('localScripts', 'localScript.register');
+		->nest('localScripts', 'localScript.register'));
+		
+	return $page;
+	
 });
-
-// Profile
-Route::get('/profile/{userId?}', function($userId = null) { // default current user
-	return View::make('page', array('page' => 'profile', 'title' => 'Profile'))
-		->nest('localStyles', 'localStyle.profile')
-		->nest('header', 'header')
-		->nest('pageContent', 'profile', array('sidebar' => View::make('sidebar')))
-		->nest('footer', 'footer', array('style' => 'dark'))
-		->nest('localScripts', 'localScript.profile');
-});
-
-// Slides
-Route::get('/slides/{userId?}', function($userId = null) { // default current user
-	return View::make('page', array('page' => 'slides', 'title' => 'View All Slides'))
-		->nest('localStyles', 'localStyle.slides')
-		->nest('header', 'header')
-		->nest('pageContent', 'slides', array('sidebar' => View::make('sidebar')))
-		->nest('footer', 'footer', array('style' => 'dark'))
-		->nest('localScripts', 'localScript.slides');
-});
-
-// Create
-Route::get('/create', function() {
-	return View::make('page', array('page' => 'create', 'title' => 'Create Slide'))
-		->nest('localStyles', 'localStyle.create')
-		->nest('header', 'header')
-		->nest('pageContent', 'create')
-		->nest('footer', 'footer', array('style' => 'dark'))
-		->nest('localScripts', 'localScript.create');
-});
-
-
-// Edit
-Route::get('/edit/{slideId?}', function($slideId = null) { // slide id required
-	return View::make('page', array('page' => 'edit', 'title' => 'Edit Slide'))
-		->nest('localStyles', 'localStyle.edit')
-		->nest('header', 'header')
-		->nest('pageContent', 'edit')
-		->nest('footer', 'footer', array('style' => 'dark'))
-		->nest('localScripts', 'localScript.edit');
-});
-
 
 // Slide
 Route::get('/slide/{slideId?}', function($slideId = null) { // slide id required
-	return View::make('page', array('page' => 'slide', 'title' => 'Presenting Slide'))
+
+	$page = View::make('page', array('page' => 'slide', 'title' => 'Presenting Slide'))
 		->nest('localStyles', 'localStyle.slide')
 		->nest('header', 'header')
 		->nest('pageContent', 'slide')
 		->nest('footer', 'footer', array('style' => 'dark'))
 		->nest('localScripts', 'localScript.slide');
+		
+	return $page;
+	
+});
+
+// Logout
+Route::get('/logout', function() {
+	
+	Auth::logout();
+	return Redirect::route('login');
+	
+});
+
+// Process Login
+Route::post('/process/login', function(){
+	
+	$username = str_replace(' ', '', trim(strip_tags($_POST['username'])));
+	$password = str_replace(' ', '', trim(strip_tags($_POST['password'])));
+	
+    if(Auth::attempt(array('uid' => $username, 'password' => $password))){
+		//$page = Redirect::route('profile', array());
+		$page = Redirect::intended('profile');
+	}else{
+		$page = Redirect::route('login', array('error' => 'error'));
+	}
+	
+	return $page;
+	
+});
+
+// process homepage contact form
+Route::post('/process/contactform', function(){
+	
+	$name = $_POST['name'];
+	$email = $_POST['email'];
+	$subject = $_POST['subject'];
+	$message = $_POST['message'];
+	
+	Mail::send('emails.contactform', array('name' => $name, 'email' => $email, 'subject' => $subject, 'message' => $message), function($message){
+		$message->to('photodow@gmail.com', 'James Dow')->subject('LiveSlides');
+	});
+				
+	return Redirect::route('login', array('error' => 'error'));
+	
+});
+
+// pages that require authentication
+Route::group(array('before' => 'auth'), function(){
+	
+	// profile
+	Route::get('/profile/{uid?}', array('as' => 'profile', function($uid = null) { // default current user
+		
+		$page = View::make('page', array('page' => 'profile', 'title' => 'Profile'))
+					->nest('localStyles', 'localStyle.profile')
+					->nest('header', 'header')
+					->nest('pageContent', 'profile', array('sidebar' => View::make('sidebar')))
+					->nest('footer', 'footer', array('style' => 'dark'))
+					->nest('localScripts', 'localScript.profile');
+		
+		return $page;
+	}));
+	
+	// slides
+	Route::get('/slides/{uid?}', function($uid = null) { // default current user
+	
+		$page = View::make('page', array('page' => 'slides', 'title' => 'View All Slides'))
+			->nest('localStyles', 'localStyle.slides')
+			->nest('header', 'header')
+			->nest('pageContent', 'slides', array('sidebar' => View::make('sidebar')))
+			->nest('footer', 'footer', array('style' => 'dark'))
+			->nest('localScripts', 'localScript.slides');
+			
+		return $page;
+		
+	});
+	
+	// Create
+	Route::get('/create', function() {
+		
+		$page = View::make('page', array('page' => 'create', 'title' => 'Create Slide'))
+			->nest('localStyles', 'localStyle.create')
+			->nest('header', 'header')
+			->nest('pageContent', 'create')
+			->nest('footer', 'footer', array('style' => 'dark'))
+			->nest('localScripts', 'localScript.create');
+			
+		return $page;
+		
+	});
+	
+	// Edit
+	Route::get('/edit/{slideId?}', function($slideId = null) { // slide id required
+	
+		$page = View::make('page', array('page' => 'edit', 'title' => 'Edit Slide'))
+			->nest('localStyles', 'localStyle.edit')
+			->nest('header', 'header')
+			->nest('pageContent', 'edit')
+			->nest('footer', 'footer', array('style' => 'dark'))
+			->nest('localScripts', 'localScript.edit');
+			
+		return $page;
+		
+	});
+	
 });

@@ -78,7 +78,7 @@
 	<div class="innerWrapper">
     	<section class="left">
         	<h2><i class="icon-envelope"></i> Contact Us</h2>
-            <form id="contactForm" action="" method="POST">
+            <form id="contactForm" action="/process/contactform" method="POST">
                 <div>
                     <label for="name">Your Name</label>
                     <input type="text" name="name" id="name" class="name" />

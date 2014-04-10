@@ -1,9 +1,12 @@
-<form id="loginForm" class="centVert" action="" method="POST">
+<form id="loginForm" class="centVert" action="/process/login" method="POST">
     <h2 class="logo">
         <?php include("img/logo.svg"); ?>
         <sub>Login</sub>
     </h2>
 	<div class="first">
+		<?php if($error === 'error'){ ?>
+        <p class="error"><i class="icon-exclamation-circle"></i> Please review your username and password for errors.</p>
+        <?php } ?>
         <label for="username">Username</label>
         <input type="text" name="username" id="username" />
     </div>

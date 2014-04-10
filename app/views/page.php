@@ -13,7 +13,17 @@
 
 	</head>
 	<body id="<?php echo $page; ?>">
-    
+    	<?php
+		// register user with email, username, and password
+		// hash username before adding to database 'Hash::make(String);'
+		// add new user to database
+		// following code will check if user is signed in
+			
+			//$results = DB::select('select * from users where email = ?', array('photodow@gmail.com'));
+			//print_r($results);*/
+			
+			
+		?>
 		<?php echo $header; ?>
         
         <div class="contentWrapper">
