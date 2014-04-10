@@ -79,13 +79,22 @@
     	<section class="left">
         	<h2><i class="icon-envelope"></i> Contact Us</h2>
             <div class="contactFormWrapper">
-                <div class="overlayMessage">
-                	<div class="centVert">
-                    	<p>testing</p>
+                <div class="overlayMessage loading">
+                	<div class="centerVert">
+                    	<p>Processing Email...</p>
+                        <div class="spin"></div>
+                    </div>
+                </div>
+                <div class="overlayMessage sent">
+                	<div class="centerVert">
+                    	<h3><i class="icon-bullhorn"></i> Thanks for Contacting Us!</h3>
+                    	<p>Your message has successfully been processed, and we will get back with you shortly. In the meantime, if you would like to send us another message just click the button below. Thanks again!</p>
+                        <p><button type="button" class="button newMessage">New Message <i class="icon-envelope"></i></button></p>
                     </div>
                 </div>
                 <form id="contactForm" action="/process/contactform" method="POST">
                     <div>
+                    	<p class="error" style="display: none;"><i class="icon-exclamation-circle"></i> There was a problem processing your email. Please review the fields below and try again.</p>
                         <label for="name">Your Name</label>
                         <input type="text" name="name" id="name" class="name" />
                     </div>

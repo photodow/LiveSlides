@@ -137,10 +137,13 @@ Route::post('/process/contactform', function(){
 	{
 		$page = 'false';
 	}else{
-		$name = $_POST['name'];
-		$email = $_POST['email'];
-		$subject = $_POST['subject'];
-		$message = $_POST['message'];
+		
+		$name = trim(strip_tags($_POST['name']));
+		$email = trim(strip_tags($_POST['email']));
+		$subject = trim(strip_tags($_POST['subject']));
+		$message = trim(strip_tags($_POST['message']));
+		$message = preg_replace('/\n{2,}/', "</p><p>", $message);
+		$message = preg_replace('/\n/', '<br>', $message);
 		
 		Mail::send('emails.contactform', array('name' => $name, 'email' => $email, 'subject' => $subject, 'messageBody' => $message), function($message){
 			$message->to('photodow@gmail.com', 'James Dow')->subject($_POST['subject']);
@@ -149,9 +152,9 @@ Route::post('/process/contactform', function(){
 		$page = 'true';
 	}
 				
-	return '{"sent":"' . $page . '"}';
+	return Response::make('{"sent":"' . $page . '"}', '200')->header('Content-Type', 'application/json');
 	
-});
+});//application/json
 
 // pages that require authentication
 Route::group(array('before' => 'auth'), function(){

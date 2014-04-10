@@ -48,6 +48,18 @@ global.square(global.var.square);
 global.var.centVert = $('.centVert');
 global.centVert(global.var.centVert);
 
+$('.spin').spin({
+	lines: 13,
+	length: 10,
+	width: 6,
+	radius: 20,
+	corners: 0.8,
+	rotate: 37,
+	trail: 54,
+	speed: 0.9,
+	direction: 1
+});
+
 window.onresize = function(){
 	global.square(global.var.square);
 	global.centVert(global.var.centVert);
