@@ -57,6 +57,8 @@ return array(
 			'host'      => 'localhost',
 			'database'  => 'LiveSlides',
 			'username'  => 'photodow',
+			/*'database'  => 'jamesdme_liveslides',
+			'username'  => 'jamesdme_admin',*/
 			'password'  => 'smGJdpest2evwpSc',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
