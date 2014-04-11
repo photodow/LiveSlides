@@ -1,9 +1,12 @@
-<form id="registerForm" class="centVert" action="" method="POST">
+<form id="registerForm" class="centVert" action="/process/register" method="POST">
     <h2 class="logo">
         <?php include("img/logo.svg"); ?>
         <sub>Register</sub>
     </h2>
 	<div class="first">
+		<?php if($error === 'error'){ ?>
+        <p class="error"><i class="icon-exclamation-circle"></i> Please review your username and password for errors.</p>
+        <?php } ?>
         <label for="firstname">First Name</label>
         <input type="text" name="firstname" id="firstname" />
     </div>
@@ -14,6 +17,10 @@
 	<div>
         <label for="email">Email</label>
         <input type="text" name="email" id="email" />
+    </div>
+	<div>
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" />
     </div>
 	<div>
         <label for="password">Password</label>

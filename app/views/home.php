@@ -93,8 +93,8 @@
                     </div>
                 </div>
                 <form id="contactForm" action="/process/contactform" method="POST">
+                    <p class="error" style="display: none;"><i class="icon-exclamation-circle"></i> There was a problem processing your email. Please review the fields below and try again.</p>
                     <div>
-                    	<p class="error" style="display: none;"><i class="icon-exclamation-circle"></i> There was a problem processing your email. Please review the fields below and try again.</p>
                         <label for="name">Your Name</label>
                         <input type="text" name="name" id="name" class="name" />
                     </div>

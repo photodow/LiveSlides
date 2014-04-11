@@ -64,18 +64,18 @@ Route::get('/password', function() {
 });
 
 // Register
-Route::get('/register', function() {
+Route::get('/register/{error?}', array('as' => 'register', function($error = null) {
 	
 	$page = noAuth(View::make('page', array('page' => 'register', 'title' => 'Register Account'))
 		->nest('localStyles', 'localStyle.register')
 		->nest('header', 'header')
-		->nest('pageContent', 'register')
+		->nest('pageContent', 'register', array('error' => $error))
 		->nest('footer', 'footer', array('style' => 'dark'))
 		->nest('localScripts', 'localScript.register'));
 		
 	return $page;
 	
-});
+}));
 
 // Slide
 Route::get('/slide/{slideId?}', function($slideId = null) { // slide id required
@@ -116,6 +116,46 @@ Route::post('/process/login', function(){
 	
 });
 
+// Process Login
+Route::post('/process/register', function(){
+	
+	//validate data
+	$validator = Validator::make(
+		array(
+			'firstname' => $_POST['firstname'],
+			'lastname' => $_POST['lastname'],
+			'email' => $_POST['email'],
+			'username' => $_POST['username'],
+			'password' => $_POST['password'],
+			'verifypassword' => $_POST['verifypassword']
+		),
+		array(
+			'firstname' => 'required|max:32',
+			'lastname' => 'required|max:32',
+			'email' => 'required|email|max:254|unique:users,email',
+			'username' => 'required|max:32|unique:users,email',
+			'password' => 'required|min:8|max:64|same:verifypassword'
+		)
+	);
+	
+	if ($validator->fails()){
+		$page = Redirect::route('register', array('error' => 'error'));
+	}else{
+		
+		$password = Hash::make($_POST['password']);
+		DB::insert('insert into users (first, last, email, uid, password) values (?, ?, ?, ?, ?)', array($_POST['firstname'], $_POST['lastname'], $_POST['email'], $_POST['username'], $password));
+		
+		if(Auth::attempt(array('uid' => $_POST['username'], 'password' => $_POST['password']))){
+			$page = Redirect::intended('profile');
+		}else{
+			$page = Redirect::route('login', array('error' => 'error'));
+		}
+	}
+	
+	return $page;
+	
+});
+
 // process homepage contact form
 Route::post('/process/contactform', function(){
 	
@@ -145,9 +185,13 @@ Route::post('/process/contactform', function(){
 		$message = preg_replace('/\n{2,}/', "</p><p>", $message);
 		$message = preg_replace('/\n/', '<br>', $message);
 		
-		Mail::send('emails.contactform', array('name' => $name, 'email' => $email, 'subject' => $subject, 'messageBody' => $message), function($message){
-			$message->to('photodow@gmail.com', 'James Dow')->subject($_POST['subject']);
-		});
+		try {
+			Mail::send('emails.contactform', array('name' => $name, 'email' => $email, 'subject' => $subject, 'messageBody' => $message), function($message){
+				$message->to('photodow@gmail.com', 'James Dow')->subject($_POST['subject']);
+			});
+		} catch (Exception $e) {
+			$page = 'false';
+		}
 		
 		$page = 'true';
 	}
