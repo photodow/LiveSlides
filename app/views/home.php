@@ -94,25 +94,25 @@
                 </div>
                 <form id="contactForm" action="/process/contactform" method="POST">
                     <p class="error" style="display: none;"><i class="icon-exclamation-circle"></i> There was a problem processing your email. Please review the fields below and try again.</p>
-                    <div>
+                    <p>
                         <label for="name">Your Name</label>
                         <input type="text" name="name" id="name" class="name" />
-                    </div>
-                    <div>
+                    </p>
+                    <p>
                         <label for="email">Your Email Address</label>
                         <input type="text" name="email" id="email" class="email" />
-                    </div>
-                    <div>
+                    </p>
+                    <p>
                         <label for="subject">Subject</label>
                         <input type="text" name="subject" id="subject" />
-                    </div>
-                    <div>
+                    </p>
+                    <p>
                         <label for="message">Message</label>
                         <textarea name="message" id="message"></textarea>
-                    </div>
-                    <div class="last">
+                    </p>
+                    <p>
                         <button name="submit" id="submit" class="submit">Send <i class="icon-envelope"></i></button>
-                    </div>
+                    </p>
                 </form>
             </div>
         </section>

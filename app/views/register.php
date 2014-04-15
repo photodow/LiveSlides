@@ -36,11 +36,11 @@
         	Password
 			<span><?php if($errors->has('password')){ echo $errors->first('password'); }else{ echo 'The password must be at least 8 characters.'; } ?></span>
         </label>
-        <input type="password" name="password" id="password" data-tip="<?php if($errors->has('password')){ echo $errors->first('password'); } ?>" data-validate="password" />
+        <input type="password" name="password" id="password" data-tip="<?php if($errors->has('password')){ echo $errors->first('password'); } ?>" maxlength="64" data-validate="password" />
     </p>
 	<p<?php if($errors->has('password')){ echo ' class="input error"'; } ?>>
         <label for="verifypassword">Verify Password</label>
-        <input type="password" name="verifypassword" id="verifypassword" data-validate="verifyPassword" />
+        <input type="password" name="verifypassword" id="verifypassword" maxlength="64" data-validate="verifyPassword" />
     </p>
 	<p>
         <button name="submit" id="submit" class="submit">Register <i class="icon-edit"></i></button>
