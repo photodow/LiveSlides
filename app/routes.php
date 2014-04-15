@@ -113,10 +113,10 @@ Route::post('/register/process', function(){
 			'verifypassword' => $_POST['verifypassword']
 		),
 		array(
-			'firstname' => 'required|max:32',
-			'lastname' => 'required|max:32',
+			'firstname' => 'required|max:32|alpha',
+			'lastname' => 'required|max:32|alpha',
 			'email' => 'required|email|max:254|unique:users,email',
-			'username' => 'required|max:32|unique:users,email',
+			'username' => 'required|max:32|alpha_dash|unique:users,uid',
 			'password' => 'required|min:8|max:64|same:verifypassword'
 		)
 	);
@@ -125,7 +125,7 @@ Route::post('/register/process', function(){
 		$page = noAuth(View::make('page', array('page' => 'register', 'title' => 'Register Account'))
 				->nest('localStyles', 'localStyle.register')
 				->nest('header', 'header')
-				->nest('pageContent', 'register')
+				->nest('pageContent', 'register', array('errors' => $validator->messages()))
 				->nest('footer', 'footer', array('style' => 'dark'))
 				->nest('localScripts', 'localScript.register'));
 	}else{
