@@ -50,7 +50,7 @@ Route::get('/login', array('as' => 'login', function() {
 }));
 
 // Process Login
-Route::post('/login/process', function(){
+Route::post('/login/process', array('as' => 'loginError', function(){
 	
 	$username = str_replace(' ', '', trim(strip_tags($_POST['username'])));
 	$password = str_replace(' ', '', trim(strip_tags($_POST['password'])));
@@ -69,7 +69,7 @@ Route::post('/login/process', function(){
 	
 	return $page;
 	
-});
+}));
 
 // Forgot Password
 Route::get('/password', function() {
@@ -98,19 +98,30 @@ Route::get('/register', array('as' => 'register', function() {
 	return $page;
 	
 }));
+	
+function clean($value){
+	return str_replace(' ', '', trim(strip_tags($value)));
+}
 
-// Process Login
+// Process Registration
 Route::post('/register/process', function(){
+		
+	$firstname = clean($_POST['firstname']);
+	$lastname = clean($_POST['lastname']);
+	$email = clean(strtolower($_POST['email']));
+	$username = clean(strtolower($_POST['username']));
+	$password = clean($_POST['password']);
+	$verifyPassword = clean($_POST['verifypassword']);
 	
 	//validate data
 	$validator = Validator::make(
 		array(
-			'firstname' => $_POST['firstname'],
-			'lastname' => $_POST['lastname'],
-			'email' => $_POST['email'],
-			'username' => $_POST['username'],
-			'password' => $_POST['password'],
-			'verifypassword' => $_POST['verifypassword']
+			'firstname' => $firstname,
+			'lastname' => $lastname,
+			'email' => $email,
+			'username' => $username,
+			'password' => $password,
+			'verifypassword' => $verifyPassword
 		),
 		array(
 			'firstname' => 'required|max:32|alpha',
@@ -129,19 +140,14 @@ Route::post('/register/process', function(){
 				->nest('footer', 'footer', array('style' => 'dark'))
 				->nest('localScripts', 'localScript.register'));
 	}else{
+		$passwordHash = Hash::make($password);
 		
-		$password = Hash::make($_POST['password']);
-		DB::insert('insert into users (first, last, email, uid, password) values (?, ?, ?, ?, ?)', array($_POST['firstname'], $_POST['lastname'], $_POST['email'], $_POST['username'], $password));
+		DB::insert('insert into users (first, last, email, uid, password) values (?, ?, ?, ?, ?)', array($firstname, $lastname, $email, $username, $passwordHash));
 		
-		if(Auth::attempt(array('uid' => $_POST['username'], 'password' => $_POST['password']))){
+		if(Auth::attempt(array('uid' => $username, 'password' => $password))){
 			$page = Redirect::intended('profile');
 		}else{
-			$page = noAuth(View::make('page', array('page' => 'login', 'title' => 'Login'))
-					->nest('localStyles', 'localStyle.login')
-					->nest('header', 'header')
-					->nest('pageContent', 'login')
-					->nest('footer', 'footer', array('style' => 'dark'))
-					->nest('localScripts', 'localScript.login'));
+			$page = Redirect::route('loginError');
 		}
 	}
 	

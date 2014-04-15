@@ -72,7 +72,7 @@ global.validate.email = function(obj){
 	var value, pGroup, spanTip, regexAlpha;
 	
 	value = global.validate.cleanInput(obj.val());
-	obj.val(value);
+	obj.val(value.toLowerCase());
 	value = obj.val();
 	pGroup = obj.closest('p');
 	spanTip = pGroup.find('label span');
@@ -104,7 +104,7 @@ global.validate.username = function(obj){
 	var value, pGroup, spanTip, regexAlpha;
 	
 	value = global.validate.cleanInput(obj.val());
-	obj.val(value);
+	obj.val(value.toLowerCase());
 	value = obj.val();
 	pGroup = obj.closest('p');
 	spanTip = pGroup.find('label span');
@@ -167,7 +167,7 @@ global.validate.verifyPassword = function(obj){
 	passwordVal = passwordInput.val();
 	spanTip = passwordpGroup.find('label span');
 	
-	if(value === passwordVal){
+	if(value === passwordVal && value.length > 0){
 			passwordpGroup.removeClass('input error');
 			pGroup.removeClass('input error');
 			spanTip.html('Looks good!');
