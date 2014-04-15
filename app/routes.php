@@ -36,18 +36,40 @@ function noAuth($page){
 }
 
 // Login
-Route::get('/login/{error?}', array('as' => 'login', function($error = null) {
+Route::get('/login', array('as' => 'login', function() {
 	
 	$page = noAuth(View::make('page', array('page' => 'login', 'title' => 'Login'))
 			->nest('localStyles', 'localStyle.login')
 			->nest('header', 'header')
-			->nest('pageContent', 'login', array('error' => $error))
+			->nest('pageContent', 'login')
 			->nest('footer', 'footer', array('style' => 'dark'))
 			->nest('localScripts', 'localScript.login'));
 		
 	return $page;
 	
 }));
+
+// Process Login
+Route::post('/login/process', function(){
+	
+	$username = str_replace(' ', '', trim(strip_tags($_POST['username'])));
+	$password = str_replace(' ', '', trim(strip_tags($_POST['password'])));
+	
+    if(Auth::attempt(array('uid' => $username, 'password' => $password))){
+		//$page = Redirect::route('profile', array());
+		$page = Redirect::intended('profile');
+	}else{
+		$page = noAuth(View::make('page', array('page' => 'login', 'title' => 'Login'))
+			->nest('localStyles', 'localStyle.login')
+			->nest('header', 'header')
+			->nest('pageContent', 'login')
+			->nest('footer', 'footer', array('style' => 'dark'))
+			->nest('localScripts', 'localScript.login'));
+	}
+	
+	return $page;
+	
+});
 
 // Forgot Password
 Route::get('/password', function() {
@@ -64,12 +86,12 @@ Route::get('/password', function() {
 });
 
 // Register
-Route::get('/register/{error?}', array('as' => 'register', function($error = null) {
+Route::get('/register', array('as' => 'register', function() {
 	
 	$page = noAuth(View::make('page', array('page' => 'register', 'title' => 'Register Account'))
 		->nest('localStyles', 'localStyle.register')
 		->nest('header', 'header')
-		->nest('pageContent', 'register', array('error' => $error))
+		->nest('pageContent', 'register')
 		->nest('footer', 'footer', array('style' => 'dark'))
 		->nest('localScripts', 'localScript.register'));
 		
@@ -77,47 +99,8 @@ Route::get('/register/{error?}', array('as' => 'register', function($error = nul
 	
 }));
 
-// Slide
-Route::get('/slide/{slideId?}', function($slideId = null) { // slide id required
-
-	$page = View::make('page', array('page' => 'slide', 'title' => 'Presenting Slide'))
-		->nest('localStyles', 'localStyle.slide')
-		->nest('header', 'header')
-		->nest('pageContent', 'slide')
-		->nest('footer', 'footer', array('style' => 'dark'))
-		->nest('localScripts', 'localScript.slide');
-		
-	return $page;
-	
-});
-
-// Logout
-Route::get('/logout', function() {
-	
-	Auth::logout();
-	return Redirect::route('login');
-	
-});
-
 // Process Login
-Route::post('/process/login', function(){
-	
-	$username = str_replace(' ', '', trim(strip_tags($_POST['username'])));
-	$password = str_replace(' ', '', trim(strip_tags($_POST['password'])));
-	
-    if(Auth::attempt(array('uid' => $username, 'password' => $password))){
-		//$page = Redirect::route('profile', array());
-		$page = Redirect::intended('profile');
-	}else{
-		$page = Redirect::route('login', array('error' => 'error'));
-	}
-	
-	return $page;
-	
-});
-
-// Process Login
-Route::post('/process/register', function(){
+Route::post('/register/process', function(){
 	
 	//validate data
 	$validator = Validator::make(
@@ -139,7 +122,12 @@ Route::post('/process/register', function(){
 	);
 	
 	if ($validator->fails()){
-		$page = Redirect::route('register', array('error' => 'error'));
+		$page = noAuth(View::make('page', array('page' => 'register', 'title' => 'Register Account'))
+				->nest('localStyles', 'localStyle.register')
+				->nest('header', 'header')
+				->nest('pageContent', 'register')
+				->nest('footer', 'footer', array('style' => 'dark'))
+				->nest('localScripts', 'localScript.register'));
 	}else{
 		
 		$password = Hash::make($_POST['password']);
@@ -148,11 +136,38 @@ Route::post('/process/register', function(){
 		if(Auth::attempt(array('uid' => $_POST['username'], 'password' => $_POST['password']))){
 			$page = Redirect::intended('profile');
 		}else{
-			$page = Redirect::route('login', array('error' => 'error'));
+			$page = noAuth(View::make('page', array('page' => 'login', 'title' => 'Login'))
+					->nest('localStyles', 'localStyle.login')
+					->nest('header', 'header')
+					->nest('pageContent', 'login')
+					->nest('footer', 'footer', array('style' => 'dark'))
+					->nest('localScripts', 'localScript.login'));
 		}
 	}
 	
 	return $page;
+	
+});
+
+// Slide
+Route::get('/slide/{slideId?}', function($slideId = null) { // slide id required
+
+	$page = View::make('page', array('page' => 'slide', 'title' => 'Presenting Slide'))
+		->nest('localStyles', 'localStyle.slide')
+		->nest('header', 'header')
+		->nest('pageContent', 'slide')
+		->nest('footer', 'footer', array('style' => 'dark'))
+		->nest('localScripts', 'localScript.slide');
+		
+	return $page;
+	
+});
+
+// Logout
+Route::get('/logout', function() {
+	
+	Auth::logout();
+	return Redirect::route('login');
 	
 });
 
@@ -257,5 +272,15 @@ Route::group(array('before' => 'auth'), function(){
 		return $page;
 		
 	});
+	
+});
+
+
+
+// Emails
+Route::get('/emails/alpha', function() {
+	$page = View::make('emails.alpha');
+		
+	return $page;
 	
 });

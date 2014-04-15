@@ -1,14 +1,14 @@
-<form id="loginForm" class="centVert" action="/process/login" method="POST">
+<form id="loginForm" class="centVert" action="/login/process" method="POST">
     <h2 class="logo">
         <?php include("img/logo.svg"); ?>
         <sub>Login</sub>
     </h2>
 	<div class="first">
-		<?php if($error === 'error'){ ?>
-        <p class="error"><i class="icon-exclamation-circle"></i> Please review your username and password for errors.</p>
+		<?php if(isset($_POST['username'])){ ?>
+        	<p class="error"><i class="icon-exclamation-circle"></i> Please review your username and password for errors.</p>
         <?php } ?>
         <label for="username">Username</label>
-        <input type="text" name="username" id="username" />
+        <input type="text" name="username" id="username" value="<?php if(isset($_POST['username'])){ echo $_POST['username']; } ?>" />
     </div>
 	<div>
         <label for="password">Password</label>
