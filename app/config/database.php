@@ -54,11 +54,9 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
-			'database'  => 'LiveSlides',
-			'username'  => 'photodow',
-			/*'database'  => 'jamesdme_liveslides',
-			'username'  => 'jamesdme_admin',*/
+			'host'      => '66.147.242.83',
+			'database'  => 'jamesdme_liveslides',
+			'username'  => 'jamesdme_admin',
 			'password'  => 'smGJdpest2evwpSc',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',

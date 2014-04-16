@@ -56,7 +56,7 @@ Route::post('/login/process', array('as' => 'loginError', function(){
 	$password = str_replace(' ', '', trim(strip_tags($_POST['password'])));
 	
     if(Auth::attempt(array('uid' => $username, 'password' => $password))){
-		//$page = Redirect::route('profile', array());
+		//DB::insert('insert into lastModified (uid, tablename, rowid, columnname) values (?, ?, ?, ?)', array($user->uid, "users", $user->id, "password"));
 		$page = Redirect::intended('profile');
 	}else{
 		$page = noAuth(View::make('page', array('page' => 'login', 'title' => 'Login'))
