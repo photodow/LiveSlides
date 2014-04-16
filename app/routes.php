@@ -56,7 +56,7 @@ Route::post('/login/process', array('as' => 'loginError', function(){
 	$password = str_replace(' ', '', trim(strip_tags($_POST['password'])));
 	
     if(Auth::attempt(array('uid' => $username, 'password' => $password))){
-		//DB::insert('insert into lastModified (uid, tablename, rowid, columnname) values (?, ?, ?, ?)', array($user->uid, "users", $user->id, "password"));
+		DB::insert('insert into logging (uid, status) values (?, ?)', array($username, "login"));
 		$page = Redirect::intended('profile');
 	}else{
 		$page = noAuth(View::make('page', array('page' => 'login', 'title' => 'Login'))
@@ -161,6 +161,7 @@ Route::post('/register/process', function(){
 		DB::insert('insert into users (first, last, email, uid, password) values (?, ?, ?, ?, ?)', array($firstname, $lastname, $email, $username, $passwordHash));
 		
 		if(Auth::attempt(array('uid' => $username, 'password' => $password))){
+			DB::insert('insert into lastModified (uid, status) values (?, ?)', array($username, "login"));
 			$page = Redirect::intended('profile');
 		}else{
 			$page = Redirect::route('loginError');
@@ -187,6 +188,8 @@ Route::get('/slide/{slideId?}', function($slideId = null) { // slide id required
 
 // Logout
 Route::get('/logout', function() {
+	
+	DB::insert('insert into logging (uid, status) values (?, ?)', array(Auth::user()->uid, "logout"));
 	
 	Auth::logout();
 	return Redirect::route('login');
