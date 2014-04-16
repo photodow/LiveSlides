@@ -1,5 +1,11 @@
 <?php
 
+if($_SERVER['HTTP_HOST'] === 'liveslides.jamesd.me'){
+	$mysqlHost = 'localhost';
+}else{
+	$mysqlHost = '66.147.242.83';
+}
+
 return array(
 
 	/*
@@ -54,7 +60,7 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => '66.147.242.83',
+			'host'      => $mysqlHost,
 			'database'  => 'jamesdme_liveslides',
 			'username'  => 'jamesdme_admin',
 			'password'  => 'smGJdpest2evwpSc',
