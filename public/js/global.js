@@ -35,20 +35,72 @@ global.validate.cleanInput = function(val){
 	return val;
 };
 
-// validates a name
-global.validate.name = function(obj){
-	var value, pGroup, spanTip, regexAlpha;
+// validates a required field (makes sure it's not empty)
+global.validate.require = function(obj){
+	var value, pGroup, spanTip, regexAlpha, length;
 	
 	value = global.validate.cleanInput(obj.val());
 	obj.val(value);
 	value = obj.val();
 	pGroup = obj.closest('p');
 	spanTip = pGroup.find('label span');
+	length = value.length;
 	
-	if(value.length > 0){
-		if(value.length <= 32){
+	if(length > 0){
+		pGroup.removeClass('input error');
+		spanTip.html('Looks good!');
+	}else{
+		// this field is required
+		pGroup.addClass('input error');
+		spanTip.html('This field is required');
+	}
+};
+
+// validates a full name
+global.validate.fullName = function(obj){
+	var value, pGroup, spanTip, regexAlpha, length;
+	
+	value = global.validate.cleanInput(obj.val());
+	obj.val(value);
+	value = obj.val();
+	pGroup = obj.closest('p');
+	spanTip = pGroup.find('label span');
+	length = value.length;
+	
+	if(length > 0){
+		regexAlpha = /[a-zA-Z ]*/g;
+		length = value.replace(regexAlpha, '').length;
+		if(length === 0){
+			pGroup.removeClass('input error');
+			spanTip.html('Looks good!');
+		}else{
+			// This field may only contain letters.
+			pGroup.addClass('input error');
+			spanTip.html('This field may only contain letters.');
+		}
+	}else{
+		// this field is required
+		pGroup.addClass('input error');
+		spanTip.html('This field is required');
+	}
+};
+
+// validates a name
+global.validate.name = function(obj){
+	var value, pGroup, spanTip, regexAlpha, length;
+	
+	value = global.validate.cleanInput(obj.val());
+	obj.val(value);
+	value = obj.val();
+	pGroup = obj.closest('p');
+	spanTip = pGroup.find('label span');
+	length = value.length;
+	
+	if(length > 0){
+		if(length <= 32){
 			regexAlpha = /[a-zA-Z]*/g;
-			if(value.replace(regexAlpha, '').length === 0){
+			length = value.replace(regexAlpha, '').length;
+			if(length === 0){
 				pGroup.removeClass('input error');
 				spanTip.html('Looks good!');
 			}else{
@@ -69,18 +121,20 @@ global.validate.name = function(obj){
 };
 
 global.validate.email = function(obj){
-	var value, pGroup, spanTip, regexAlpha;
+	var value, pGroup, spanTip, regexAlpha, length;
 	
 	value = global.validate.cleanInput(obj.val());
 	obj.val(value.toLowerCase());
 	value = obj.val();
 	pGroup = obj.closest('p');
 	spanTip = pGroup.find('label span');
+	length = value.length;
 	
-	if(value.length > 0){
-		if(value.length <= 254){
+	if(length > 0){
+		if(length <= 254){
 			regexAlpha = /(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/g;
-			if(value.replace(regexAlpha, '').length === 0){
+			length = value.replace(regexAlpha, '').length;
+			if(length === 0){
 				pGroup.removeClass('input error');
 				spanTip.html('Looks good!');
 			}else{
@@ -101,18 +155,20 @@ global.validate.email = function(obj){
 };
 
 global.validate.username = function(obj){
-	var value, pGroup, spanTip, regexAlpha;
+	var value, pGroup, spanTip, regexAlpha, length;
 	
 	value = global.validate.cleanInput(obj.val());
 	obj.val(value.toLowerCase());
 	value = obj.val();
 	pGroup = obj.closest('p');
 	spanTip = pGroup.find('label span');
+	length = value.length;
 	
-	if(value.length > 0){
-		if(value.length <= 32){
+	if(length > 0){
+		if(length <= 32){
 			regexAlpha = /[\w-]*/g;
-			if(value.replace(regexAlpha, '').length === 0){
+			length = value.replace(regexAlpha, '').length;
+			if(length === 0){
 				pGroup.removeClass('input error');
 				spanTip.html('Looks good!');
 			}else{
@@ -133,16 +189,17 @@ global.validate.username = function(obj){
 };
 
 global.validate.password = function(obj){
-	var value, pGroup, spanTip;
+	var value, pGroup, spanTip, length;
 	
 	value = global.validate.cleanInput(obj.val());
 	obj.val(value);
 	value = obj.val();
 	pGroup = obj.closest('p');
 	spanTip = pGroup.find('label span');
+	length = value.length;
 	
-	if(value.length >= 8){
-		if(value.length <= 64){
+	if(length >= 6){
+		if(length <= 64){
 				pGroup.removeClass('input error');
 				spanTip.html('Looks good!');
 		}else{
@@ -153,12 +210,12 @@ global.validate.password = function(obj){
 	}else{
 		// this field is required
 		pGroup.addClass('input error');
-		spanTip.html('The password must be at least 8 characters.');
+		spanTip.html('The password must be at least 6 characters.');
 	}
 };
 
 global.validate.verifyPassword = function(obj){
-	var value, pGroup, spanTip, passwordInput, passwordVal, passwordpGroup;
+	var value, pGroup, spanTip, passwordInput, passwordVal, passwordpGroup, length;
 	
 	value = obj.val();
 	pGroup = obj.closest('p');
@@ -166,8 +223,9 @@ global.validate.verifyPassword = function(obj){
 	passwordInput = passwordpGroup.find('input');
 	passwordVal = passwordInput.val();
 	spanTip = passwordpGroup.find('label span');
+	length = value.length;
 	
-	if(value === passwordVal && value.length > 0){
+	if(value === passwordVal && length > 0){
 			passwordpGroup.removeClass('input error');
 			pGroup.removeClass('input error');
 			spanTip.html('Looks good!');
@@ -188,6 +246,7 @@ global.var.form.on('focus', 'input, textarea', function(){
 
 global.var.form.on('blur', 'input, textarea', function(){
 	var that, validateType, thatVal;
+	
 	that = $(this);
 	that.closest('p').find('label span').css('display', 'none');
 	validateType = that.data('validate');
@@ -202,6 +261,10 @@ global.var.form.on('blur', 'input, textarea', function(){
 		global.validate.password(that);
 	}else if(validateType === 'verifyPassword'){
 		global.validate.verifyPassword(that);
+	}else if(validateType === 'require'){
+		global.validate.require(that);	
+	}else if(validateType === 'fullName'){
+		global.validate.fullName(that);	
 	}
 });
 

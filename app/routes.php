@@ -72,18 +72,34 @@ Route::post('/login/process', array('as' => 'loginError', function(){
 }));
 
 // Forgot Password
-Route::get('/password', function() {
+Route::get('/password', array('as' => 'password', function() {
 	
 	$page = noAuth(View::make('page', array('page' => 'password', 'title' => 'Forgot Password'))
 		->nest('localStyles', 'localStyle.password')
 		->nest('header', 'header')
-		->nest('pageContent', 'password')
+		->nest('pageContent', 'password.remind')
+		->nest('footer', 'footer', array('style' => 'dark'))
+		->nest('localScripts', 'localScript.password'));
+		
+	return $page;
+	
+}));
+
+// Reset Password
+Route::get('/password/reset/{token?}', function($token = null) {
+	
+	$page = noAuth(View::make('page', array('page' => 'password', 'title' => 'Forgot Password'))
+		->nest('localStyles', 'localStyle.password')
+		->nest('header', 'header')
+		->nest('pageContent', 'password.reset', array('token' => $token))
 		->nest('footer', 'footer', array('style' => 'dark'))
 		->nest('localScripts', 'localScript.password'));
 		
 	return $page;
 	
 });
+
+Route::controller('password', 'RemindersController');
 
 // Register
 Route::get('/register', array('as' => 'register', function() {
@@ -128,7 +144,7 @@ Route::post('/register/process', function(){
 			'lastname' => 'required|max:32|alpha',
 			'email' => 'required|email|max:254|unique:users,email',
 			'username' => 'required|max:32|alpha_dash|unique:users,uid',
-			'password' => 'required|min:8|max:64|same:verifypassword'
+			'password' => 'required|min:6|max:64|same:verifypassword'
 		)
 	);
 	

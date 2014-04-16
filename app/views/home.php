@@ -95,20 +95,32 @@
                 <form id="contactForm" action="/process/contactform" method="POST">
                     <p class="error" style="display: none;"><i class="icon-exclamation-circle"></i> There was a problem processing your email. Please review the fields below and try again.</p>
                     <p>
-                        <label for="name">Your Name</label>
-                        <input type="text" name="name" id="name" class="name" />
+                        <label for="name">
+                        	Your Name
+                            <span style="left: 300px;">Your full name please.</span>
+                        </label>
+                        <input type="text" name="name" id="name" class="name" maxlength="65" data-validate="fullName" />
                     </p>
                     <p>
-                        <label for="email">Your Email Address</label>
-                        <input type="text" name="email" id="email" class="email" />
+                        <label for="email">
+                        	Your Email Address
+                            <span style="left: 300px;">Must be a valid email address.</span>
+                        </label>
+                        <input type="text" name="email" id="email" class="email" maxlength="254" data-validate="email" />
                     </p>
                     <p>
-                        <label for="subject">Subject</label>
-                        <input type="text" name="subject" id="subject" />
+                        <label for="subject">
+                        	Subject
+                            <span style="left: 580px;">Please enter a descriptive subject line.</span>
+                        </label>
+                        <input type="text" name="subject" id="subject" maxlength="64" data-validate="require" />
                     </p>
                     <p>
-                        <label for="message">Message</label>
-                        <textarea name="message" id="message"></textarea>
+                        <label for="message">
+                        	Message
+                            <span style="left: 580px;">You can provide me with a comment, question or feedback here.</span>
+                        </label>
+                        <textarea name="message" id="message" data-validate="require"></textarea>
                     </p>
                     <p>
                         <button name="submit" id="submit" class="submit">Send <i class="icon-envelope"></i></button>

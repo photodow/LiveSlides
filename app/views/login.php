@@ -6,9 +6,14 @@
 	<?php if(isset($_POST['username'])){ ?>
         <p class="error"><i class="icon-exclamation-circle"></i> Please review your username and password for errors.</p>
     <?php } ?>
+    <?php
+		if(Session::has('passwordChange')){
+			echo '<p class="success"><i class="icon-check"></i> ' . Session::get('passwordChange') . '</p>';
+		}
+	?>
 	<p>
         <label for="username">Username</label>
-        <input type="text" name="username" id="username" value="<?php if(isset($_POST['username'])){ echo $_POST['username']; } ?>" />
+        <input type="text" name="username" id="username" <?php if(Session::has('username')){ echo ' value="' . Session::get('username') . '"'; }else{ if(isset($_POST['username'])){ echo 'value="' . $_POST['username'] . '"'; } } ?> />
     </p>
 	<p>
         <label for="password">Password</label>

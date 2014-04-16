@@ -59,10 +59,19 @@ p {
 	padding: 10px;
 }
 
-.error i {
+.error i, .success i {
 	font-size: 2.9em;
 	float: left;
 	margin-right: 5px;
+}
+
+.success {
+	border: 1px solid #74BE8B;
+	color: #539969;
+	background-color: #D5FFE2;
+	text-align: left;
+	border-radius: 3px;
+	padding: 10px;
 }
 
 .input.error {
@@ -72,9 +81,9 @@ p {
 }
 
 .input.error input, .input.error textarea {
-	color: #D54747;
-	border: 1px solid #E76464;
-background-color: #FFD5D5;
+	color: #D54747 !important;
+	border: 1px solid #E76464 !important;
+	background-color: #FFD5D5 !important;
 }
 
 /* header style */
@@ -186,11 +195,17 @@ body > header nav ul li.dropdown > a {
 body > header nav ul li.dropdown > a::after {
 	content: "\f0dd";
 	color: #e5e5e5;
-	font-family: FontAwesome;
 	margin-left: 5px;
 	position: absolute;
 	right: 10px;
 	top: 3px;
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -209,12 +224,18 @@ body > header nav ul li.dropdown > ul {
 body > header nav ul li.dropdown > ul::after {
 	content: "\f0d8";
 	color: #fff;
-	font-family: FontAwesome;
 	margin-left: 5px;
 	position: absolute;
 	font-size: 1.3em;
 	right: 10px;
 	top: -11px;
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -482,6 +503,11 @@ form input, form textarea {
 	box-sizing: border-box;
 	margin: 0;
 	box-shadow: 0 1px 0 rgba(255,255,255,.05), inset 0 1px 2px rgba(0,0,0,.2);
+}
+
+#registerForm input, #loginForm input, #passwordForm input {
+	max-width: 280px;
+	box-sizing: initial;
 }
 
 form textarea {
@@ -811,12 +837,25 @@ form .moreinfo li a:active {
 	color: #ddd;
 }
 
+#home #contactForm .input.error {
+	
+}
+
 #home #contactForm textarea {
 	height: 150px;
 }
 
 #home #contactForm label {
 	color: #aaa;
+}
+
+#home #contactForm label span {
+	background: #ddd;
+	color: #777;
+}
+
+#home #contactForm label span:before {
+	color: #ddd;
 }
 
 .innerWrapper {

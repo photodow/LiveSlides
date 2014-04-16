@@ -34,7 +34,7 @@
 	<p<?php if($errors->has('password')){ echo ' class="input error"'; } ?>>
         <label for="password">
         	Password
-			<span><?php if($errors->has('password')){ echo $errors->first('password'); }else{ echo 'The password must be at least 8 characters.'; } ?></span>
+			<span><?php if($errors->has('password')){ echo $errors->first('password'); }else{ echo 'The password must be at least 6 characters.'; } ?></span>
         </label>
         <input type="password" name="password" id="password" data-tip="<?php if($errors->has('password')){ echo $errors->first('password'); } ?>" maxlength="64" data-validate="password" />
     </p>
