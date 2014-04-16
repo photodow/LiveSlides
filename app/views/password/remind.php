@@ -1,4 +1,4 @@
-<form id="passwordForm" class="centVert" action="<?php echo action('RemindersController@postRemind'); ?>" method="POST">
+<form id="passwordForm" class="centVert" data-header="true" action="<?php echo action('RemindersController@postRemind'); ?>" method="POST">
     <h2 class="logo">
         <?php include("img/logo.svg"); ?>
         <sub>Password</sub>

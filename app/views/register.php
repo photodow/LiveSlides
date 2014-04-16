@@ -1,4 +1,4 @@
-<form id="registerForm" class="centVert" action="/register/process" method="POST">
+<form id="registerForm" class="centVert" data-header="true" action="/register/process" method="POST">
     <h2 class="logo">
         <?php include("img/logo.svg"); ?>
         <sub>Register</sub>

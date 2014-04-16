@@ -50,11 +50,11 @@
 		
 		global.centVert(
 			contactform
-			.parent()
-			.find('.overlayMessage.loading')
-			.css('visibility', 'visible')
-			.css('opacity', '1')
-			.find('.centerVert')
+				.parent()
+				.find('.overlayMessage.loading')
+				.css('visibility', 'visible')
+				.css('opacity', '1')
+				.find('.centerVert')
 		);
 		contactform.parent().find('.overlayMessage.loading p').css('marginTop', '60px');
 		
@@ -69,12 +69,14 @@
 	}
 	
 	function showMessageSent(){
-		global.centVert(contactform
-			.parent()
-			.find('.overlayMessage.sent')
-			.css('visibility', 'visible')
-			.css('opacity', '1')
-			.find('.centerVert'));
+		global.centVert(
+			contactform
+				.parent()
+				.find('.overlayMessage.sent')
+				.css('visibility', 'visible')
+				.css('opacity', '1')
+				.find('.centerVert')
+		);
 	}
 	
 	function hideMessageSent(){

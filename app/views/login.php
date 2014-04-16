@@ -1,4 +1,4 @@
-<form id="loginForm" class="centVert" action="/login/process" method="POST">
+<form id="loginForm" class="centVert" data-header="true" action="/login/process" method="POST">
     <h2 class="logo">
         <?php include("img/logo.svg"); ?>
         <sub>Login</sub>
