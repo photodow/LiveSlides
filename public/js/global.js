@@ -2,10 +2,11 @@ var global = {};
 
 (function(window, document, undefined){
 	
-	var app, init, validate, form, square, centVert;
+	var app, init, validate, body, form, square, centVert;
 	
 	app = {};
 	validate = {};
+	body = $('body');
 	form = $('form');
 	square = $('.square');
 	centVert = $('.centVert');
@@ -62,6 +63,33 @@ var global = {};
 			direction: 1
 		});
 		
+	};
+	
+	// perfect square
+	app.openMenu = function () {
+		body.addClass('menuOpen')
+			.find('header nav aside')
+			.addClass('active')
+			.closest('nav')
+			.find('#closeMenu')
+			.show();
+	};
+	
+	app.closeMenu = function () {
+		body.removeClass('menuOpen')
+			.find('header nav aside')
+			.removeClass('active')
+			.closest('nav')
+			.find('#closeMenu')
+			.hide();
+	};
+	
+	app.toggleMenu = function () {
+		if(body.hasClass('menuOpen')){
+			app.closeMenu();
+		}else{
+			app.openMenu();
+		}
 	};
 	
 	// perfect square
@@ -298,6 +326,10 @@ var global = {};
 	/* ====================================
 	                 EVENTS
 	   ==================================== */
+	   
+	$('.toggleMenu, nav a').on('click', function(){
+		app.toggleMenu();
+	});
 	
 	form.on('focus', 'input, textarea', function(){
 		$(this).closest('p').find('label span').css('display', 'block');
