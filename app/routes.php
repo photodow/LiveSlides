@@ -249,7 +249,7 @@ Route::group(array('before' => 'auth'), function(){
 		$page = View::make('page', array('page' => 'profile', 'title' => 'Profile'))
 					->nest('localStyles', 'localStyle.profile')
 					->nest('header', 'header')
-					->nest('pageContent', 'profile', array('sidebar' => View::make('sidebar')))
+					->nest('pageContent', 'profile', array('uid' => $uid, 'sidebar' => View::make('sidebar')))
 					->nest('footer', 'footer', array('style' => 'dark'))
 					->nest('localScripts', 'localScript.profile');
 		
@@ -308,4 +308,22 @@ Route::get('/emails/alpha', function() {
 		
 	return $page;
 	
+});
+
+App::error(function($exception, $code)
+{
+    switch ($code)
+    {
+        /*case 403:
+            return Response::view('errors.403', array(), 403);*/
+
+        case 404:
+            return '404: page not found';//Response::view('errors.404', array(), 404);
+
+        /*case 500:
+            return Response::view('errors.500', array(), 500);
+
+        default:
+            return Response::view('errors.default', array(), $code);*/
+    }
 });

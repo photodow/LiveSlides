@@ -23,47 +23,47 @@
                 	<i class="icon-eye"></i>
                     Live Presentations
                 </h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim sodales augue eu fringilla. Aenean a pretium augue, eu orem.</p>
+                <p>Present your presentations live, and keep your slides in sync as you change slides. Your audience can follow along on their mobile devices. </p>
             </li>
         	<li>
             	<h2>
                 	<i class="icon-pencil"></i>
                     Presentation Editor
                 </h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim sodales augue eu fringilla. Aenean a pretium augue, eu orem.</p>
+                <p>You can use our intuitive online editor to create your live presentations. There is no installation required and you can access it from any browser.</p>
             </li>
         	<li>
             	<h2>
                 	<i class="icon-mail-forward"></i>
                     Share Presentations
                 </h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim sodales augue eu fringilla. Aenean a pretium augue, eu orem.</p>
+                <p>With your presentation's live or static link you can share it with the world through email or social media. Sharing it is only limited by your imagination.</p>
             </li>
         	<li class="linebreak">
             	<h2>
                 	<i class="icon-mobile-phone"></i>
                     Mobile Access
                 </h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim sodales augue eu fringilla. Aenean a pretium augue, eu orem.</p>
+                <p>Forgot your laptop? No worries! Not only can your audience follow along using a mobile device, but you too can present live using your own mobile device.</p>
             </li>
         	<li>
             	<h2>
                 	<i class="icon-search"></i>
                     Search Engine Friendly
                 </h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim sodales augue eu fringilla. Aenean a pretium augue, eu orem.</p>
+                <p>Our live presentations are built using the most semantic, accessible, and standard HTML5, CSS3, and Javascript. Search engines love reading this kind of stuff.</p>
             </li>
         	<li>
             	<h2>
                 	<i class="icon-cloud"></i>
                     Available in the Cloud
                 </h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim sodales augue eu fringilla. Aenean a pretium augue, eu orem.</p>
+                <p>Your LiveSlides are stored in the cloud, and can be accessed from any device with internet access. You could present live on an airplane for all we care!</p>
             </li>
         </ul>
     </div>
 </section>
-<section id="about" class="about">
+<?php /*<section id="about" class="about">
 	<div class="innerWrapper">
         <h2><i class="icon-liveslides"></i> About Us</h2> <!-- TO DO: Add custom LiveSlide Font Icon -->
         <div class="two-col">
@@ -73,7 +73,7 @@
             <p>In fringilla elit lorem, lacinia dictum tortor molestie at. Fusce sagittis erat diam, sit amet molestie sem sodales et. Nulla lobortis aliquam tortor, sed ultricies odio porta eu. Nunc fringilla nibh id urna sagittis convallis. Nam sed mauris lobortis, euismod neque eget, varius lectus. Vestibulum id faucibus orci, vel sagittis felis. Pium sem, vitae pellentesque nisl est sit amet lacus. Phasellus tempor arcu non mauris convallis congue. Duis vel sagittis sapien, at porta risus. Vivamus pellentesque. tiam commodo mi lorem, vel vulputate iaculis elit. Aliquam gravida arcu sit amet commodo egestas.</p>
         </div>
     </div>
-</section>
+</section> */ ?>
 <section id="contact" class="contact">
 	<div class="innerWrapper">
     	<section class="left">
@@ -130,8 +130,9 @@
         </section>
         <section class="right">
         	<h2><i class="icon-heart"></i> Special Thanks</h2>
-            <ul>
-            	<li>Coming Soon</li>
+            <ul class="thanks">
+            	<li><a href="http://laravel.com/" title="Click here to go to Laravel's website."><img src="/img/laravel.png" alt="Laravel - The PHP framework for web artisans." /></a></li>
+            	<li><a href="http://jquery.com/" title="Click here to go to jQuery's website."><img src="/img/jquery.png" alt="jQuery write less, do more." /></a></li>
             </ul>
         </section>
     </div>

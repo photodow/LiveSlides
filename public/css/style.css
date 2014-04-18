@@ -861,6 +861,20 @@ form .moreinfo li a:active {
 	width: 32.5%;
 }
 
+#home .contact .right .thanks {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+#home .contact .right .thanks li {
+	margin: 20px 0;
+}
+
+#home .contact .right .thanks img {
+	width: 100%;
+}
+
 #home #contactForm {
 	width: 100%;
 	padding: 0;
@@ -1153,6 +1167,17 @@ form .moreinfo li a:active {
 	color: #888;
 	font-size: 1.25em;
 	margin: 0 0 10px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+#profile .profile header .headline * {
+	display:inline;
+	white-space:nowrap;
+}
+
+#profile .profile header .headline br {
+	display: none;
 }
 
 #profile .profile header aside.social ul {
@@ -1270,6 +1295,11 @@ form .moreinfo li a:active {
 #profile .profile .presentations li {
 	width: 21.25%;
 	margin-left: 5%;
+}
+
+#profile .profile .edit {
+	color: #bfbfbf !important;
+	font-style: italic;
 }
 
 section.left, aside.sidebar {
