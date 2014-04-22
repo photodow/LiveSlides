@@ -227,3 +227,9 @@ from her mobile device.</p>
     </tr>
   </tfooter>
 </table>
+
+<h2>Other Resources</h2>
+<ul>
+  <li><a href="" title="click here to view the wireframes for this project.">View Wireframes</a></li>
+  <li><a href="" title="click here to view the composites for this project.">View Composites</a></li>
+</ul>
