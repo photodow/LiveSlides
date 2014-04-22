@@ -1,5 +1,6 @@
 <h1>LiveSlides</h1>
 <p>Live HTML presentations controlled by the presenter, and viewed by the audience.</p>
+<p><a href="http://liveslides.jamesd.me/" title="click here to view the LiveSlides website">View LiveSlides Website</a></p>
 
 <h2>Website Proposal</h2>
 <h3>LiveSlides Conception</h3>
