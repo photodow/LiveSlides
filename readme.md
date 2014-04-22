@@ -230,6 +230,6 @@ from her mobile device.</p>
 
 <h2>Other Resources</h2>
 <ul>
-  <li><a href="" title="click here to view the wireframes for this project.">View Wireframes</a></li>
-  <li><a href="" title="click here to view the composites for this project.">View Composites</a></li>
+  <li><a href="https://www.dropbox.com/s/zwkviuri0eao7jx/sitemapWireframes.pdf" title="click here to view the wireframes for this project.">View Wireframes</a></li>
+  <li><a href="https://www.dropbox.com/s/57apzbn9xkke3w3/styleComposites.pdf" title="click here to view the composites for this project.">View Composites</a></li>
 </ul>
