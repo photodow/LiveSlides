@@ -2,16 +2,14 @@ global = {};
 
 (function(window, document, undefined){
 	
-	var slide, transition, presentation, nextPage, previousPage, currentPage;
+	var slide, transition, presentation, nextPage, previousPage, currentPage, numSlides, currentPageNum;
 	
 	slide = {};
 	transition = {};
 	presentation = $('#presentation');
-	currentPage = presentation.find('article.active');
-	nextPage = currentPage.next();
-	previousPage = currentPage.prev();
+	numSlides = presentation.find('article').length;
 	
-	
+	 
 	
 	
 	/* ====================================
@@ -20,21 +18,71 @@ global = {};
 	
 	slide.ini = function(){
 		
+		slide.setCurrentPage();
+		transition.slideFade(currentPage, slide.getTransition(currentPage, 'in'));
+		
 	};
 	
 	slide.sync = function(){
 		
 	};
 	
-	slide.pageGoTo = function(){
+	slide.setCurrentPage = function(obj){
+		
+		currentPage = presentation.find('article.active');
+		currentPageNum = currentPage.index() + 1;
+		nextPage = currentPage.next();
+		previousPage = currentPage.prev();
+		
+	};
+	
+	slide.getTransition = function(obj, introExit){
+		
+		return obj.data(introExit);
+		
+	};
+	
+	slide.pageGoTo = function(page){
+		
+		if(Number(page) > 0 && Number(page) <= numSlides){
+			
+			var nextPage;
+			
+			nextPage = presentation.find('article').eq(page - 1);
+			
+			transition.slideFade(nextPage, slide.getTransition(nextPage, 'in'), undefined, undefined, undefined, function(){
+				currentPage.removeClass('active');
+				nextPage.addClass('active');
+				slide.setCurrentPage();
+			});
+			
+		}
 		
 	};
 	
 	slide.pageNext = function(){
 		
+		if(currentPageNum < numSlides){
+			transition.slideFade(nextPage, slide.getTransition(nextPage, 'in'), undefined, undefined, undefined, function(){
+				currentPage.removeClass('active');
+				nextPage.addClass('active');
+				slide.setCurrentPage();
+			});
+			transition.slideFade(currentPage, slide.getTransition(currentPage, 'out'));
+		}
+		
 	};
 	
 	slide.pageBack = function(){
+		
+		if(currentPageNum > 1){
+			transition.slideFade(previousPage, slide.getTransition(previousPage, 'in'), undefined, undefined, undefined, function(){
+				currentPage.removeClass('active');
+				previousPage.addClass('active');
+				slide.setCurrentPage();
+			});
+			transition.slideFade(currentPage, slide.getTransition(currentPage, 'out'));
+		}
 		
 	};
 	
@@ -42,14 +90,15 @@ global = {};
 	/* ====================================
 	           TRANSITION FUNCTIONS
 	   ==================================== */
-	
+	   
 	transition.slideFade = function(obj, type, delay, speed, easing, callback){
 		
 		obj = obj || $('.active');
 		delay = delay || 0;
-		speed = speed || 500;
+		speed = speed || 2000;
 		easing = easing || 'easeOutCubic';
 		callback = callback || function(){};
+		type = type || {};
 		
 		var prepElement, prepAnimation, that, left, top, height, width;
 		
@@ -128,6 +177,7 @@ global = {};
 				
 				global.delaySlideFade = setTimeout(function(){
 					that.animate(prepAnimation, speed, easing, function(){
+						that.removeAttr('style');
 						callback(that);
 					});
 					
@@ -139,16 +189,6 @@ global = {};
 		
 	};
 	
-		
-	transition.slideFade(currentPage, { slide: 'inLeft' }, 2000, 3000);
-	$('h1').css({ position: 'absolute', left: '100px', top: '100px' }); 
-	$('li').css({ position: 'absolute' }); 
-	transition.slideFade($('.active h1'), { slide: 'inUp', fade: 'in' }, 3000, 1000);
-	transition.slideFade($('.active li'), { slide: 'inDown', fade: 'in' }, 2000, 500);
-	transition.slideFade(currentPage, { slide: 'outLeft' }, 4000, 3000);
-	transition.slideFade($('.active h1'), { slide: 'outRight', fade: 'out' }, 5000, 1000);
-	transition.slideFade($('.active li'), { slide: 'outDown', fade: 'out' }, 4000, 500);
-	
 	
 	
 	
@@ -156,7 +196,9 @@ global = {};
 	                  EVENTS
 	   ==================================== */
 	
-	
+	$('body').on('click', function(){
+		slide.pageNext();
+	});
 	
 	
 	slide.ini();
