@@ -175,11 +175,9 @@ Route::post('/register/process', function(){
 // Slide
 Route::get('/slide/{slideId?}', function($slideId = null) { // slide id required
 
-	$page = View::make('page', array('page' => 'slide', 'title' => 'Presenting Slide'))
+	$page = View::make('pageSlide', array('page' => 'slide', 'title' => 'Presenting Slide'))
 		->nest('localStyles', 'localStyle.slide')
-		->nest('header', 'header')
 		->nest('pageContent', 'slide')
-		->nest('footer', 'footer', array('style' => 'dark'))
 		->nest('localScripts', 'localScript.slide');
 		
 	return $page;

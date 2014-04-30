@@ -1,8 +1,1 @@
-<style>
-	body > .contentWrapper {
-		height: 100%;
-	}
-	body > header, body > footer {
-		display: none;
-	}
-</style>
+<link rel="stylesheet" type="text/css" href="/css/liveslides.css">

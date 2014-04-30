@@ -522,7 +522,6 @@ var global = {};
 	
 	global.headerMouseOverStatus = false;
 	$(document).on('mousemove', function(e){
-		console.log(e.clientY + ' < ' + header.height());
 		if(e.clientY < header.height()){
 			app.scrollStart();
 			global.headerMouseOverStatus = true;
