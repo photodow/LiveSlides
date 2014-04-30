@@ -161,7 +161,7 @@ Route::post('/register/process', function(){
 		DB::insert('insert into users (first, last, email, uid, password) values (?, ?, ?, ?, ?)', array($firstname, $lastname, $email, $username, $passwordHash));
 		
 		if(Auth::attempt(array('uid' => $username, 'password' => $password))){
-			DB::insert('insert into lastModified (uid, status) values (?, ?)', array($username, "login"));
+			DB::insert('insert into logging (uid, status) values (?, ?)', array($username, "login"));
 			$page = Redirect::intended('profile');
 		}else{
 			$page = Redirect::route('loginError');
@@ -213,10 +213,9 @@ Route::post('/process/contactform', function(){
 			'message' => 'required'
 		)
 	);
-	if ($validator->fails())
-	{
+	if ($validator->fails()) {
 		$page = 'false';
-	}else{
+	} else {
 		
 		$name = trim(strip_tags($_POST['name']));
 		$email = trim(strip_tags($_POST['email']));
@@ -240,21 +239,233 @@ Route::post('/process/contactform', function(){
 	
 });//application/json
 
-// pages that require authentication
-Route::group(array('before' => 'auth'), function(){
+// profile
+Route::get('/profile/{uid?}', array('as' => 'profile', function($uid = null) {
 	
-	// profile
-	Route::get('/profile/{uid?}', array('as' => 'profile', function($uid = null) { // default current user
+	if(!Auth::check() && $uid === null){
 		
+		$page = Redirect::route('login');
+		
+	}else{
+		
+		if($uid === null){ // default current user
+			$uid = Auth::user()->uid;
+		}
+	
 		$page = View::make('page', array('page' => 'profile', 'title' => 'Profile'))
 					->nest('localStyles', 'localStyle.profile')
 					->nest('header', 'header')
 					->nest('pageContent', 'profile', array('uid' => $uid, 'sidebar' => View::make('sidebar')))
 					->nest('footer', 'footer', array('style' => 'dark'))
-					->nest('localScripts', 'localScript.profile');
+					->nest('localScripts', 'localScript.profile', array('uid' => $uid));
+			
+	}
+	
+	return $page;
+}));
+
+
+
+
+// pages that require authentication
+Route::group(array('before' => 'auth'), function(){
+
+	// edit profile
+	Route::get('/edit/profile', function() {
+		
+		$page = View::make('page', array('page' => 'profileEdit', 'title' => 'Edit Profile'))
+					->nest('localStyles', 'localStyle.profileEdit')
+					->nest('header', 'header')
+					->nest('pageContent', 'profileEdit', array('sidebar' => View::make('sidebar')))
+					->nest('footer', 'footer', array('style' => 'dark'))
+					->nest('localScripts', 'localScript.profileEdit');
 		
 		return $page;
-	}));
+	});
+
+	// process edit profile request
+	Route::post('/edit/profile/process', function() {
+		
+		$uid = Auth::user()->uid;
+		$headline = trim(strip_tags($_POST['headline']));
+		$about = trim(strip_tags($_POST['about']));
+		$email = trim(strip_tags($_POST['email']));
+		$website = trim(strip_tags($_POST['website']));
+		$facebook = trim(strip_tags($_POST['facebook']));
+		$twitter = trim(strip_tags($_POST['twitter']));
+		$googleplus = trim(strip_tags($_POST['googleplus']));
+		$linkedin = trim(strip_tags($_POST['linkedin']));
+		$currentPassword = trim(strip_tags($_POST['password']));
+		$newPassword = trim(strip_tags($_POST['newpassword']));
+		$verifyNewPassword = trim(strip_tags($_POST['confirmnewpassword']));
+		
+		if($email !== Auth::user()->email){ // handle email validation
+			$validateEmail = 'required|email|max:254|unique:users,email';
+			$changeEmail = true;
+		}else{
+			$validateEmail = '';	
+			$changeEmail = false;
+		}
+		
+		Validator::extend('checkPassword', function($attribute, $value, $parameters) {
+			return Hash::check($value, Auth::user()->password);
+		});
+		
+		Validator::replacer('checkPassword', function($message, $attribute, $rule, $parameters) {
+			return 'Incorrect password.';
+		});
+		
+		Validator::replacer('URL', function($message, $attribute, $rule, $parameters) {
+			return 'This is not a valid URL.';
+		});
+		
+		if(!empty($currentPassword) || !empty($newPassword) || !empty($verifyNewPassword)){
+			$validateCurrentPassword = 'required|checkPassword';
+			$validateNewPassword = 'required|min:6|max:64|same:verifyNewPassword|different:currentPassword';
+			$validateVerifyNewPassword = 'required';
+			$changePassword = true;
+		}else{
+			$validateCurrentPassword = '';
+			$validateNewPassword = '';
+			$validateVerifyNewPassword = '';
+			$changePassword = false;
+		}
+		
+		$validator = Validator::make(
+			array(
+				'headline' => $headline,
+				'about' => $about,
+				'email' => $email,
+				'website' => $website,
+				'facebook' => $facebook,
+				'twitter' => $twitter,
+				'googleplus' => $googleplus,
+				'linkedin' => $linkedin,
+				'currentPassword' => $currentPassword,
+				'newPassword' => $newPassword,
+				'verifyNewPassword' => $verifyNewPassword
+			),
+			array(
+				'headline' => 'max:64',
+				'about' => '',
+				'email' => $validateEmail,
+				'website' => 'URL|max:254',
+				'facebook' => 'max:64',
+				'twitter' => 'max:64',
+				'googleplus' => 'max:64',
+				'linkedin' => 'max:64',
+				'currentPassword' => $validateCurrentPassword,
+				'newPassword' => $validateNewPassword,
+				'verifyNewPassword' => $validateVerifyNewPassword
+			)
+		);
+		
+		$messages = $validator->messages();
+		
+		if($validator->fails()){
+			// did not pass
+			// redirect with error messages
+			Session::put('error', $messages);
+			Session::put('post', $_POST);
+			$page = Redirect::to('/edit/profile');
+		}else{
+			// pass
+			if($changeEmail){
+				// update email address
+				DB::update('update users set email = ? where uid = ?', array($email, $uid));
+				DB::insert('insert into lastModified (uid, tablename, rowid, columnname) values (?, ?, ?, ?)', array($uid, "users", Auth::user()->id, "email"));
+			}
+			
+			if($changePassword){
+				// update password
+				DB::update('update users set password = ? where uid = ?', array(Hash::make($newPassword), $uid));
+				DB::insert('insert into lastModified (uid, tablename, rowid, columnname) values (?, ?, ?, ?)', array($uid, "users", Auth::user()->id, "password"));
+			}
+			
+			if($headline !== Auth::user()->headline){
+				if(empty($headline)){
+					$headline = null;	
+				}
+				// update headline
+				DB::update('update users set headline = ? where uid = ?', array($headline, $uid));
+				DB::insert('insert into lastModified (uid, tablename, rowid, columnname) values (?, ?, ?, ?)', array($uid, "users", Auth::user()->id, "headline"));
+			}
+			
+			if($about !== Auth::user()->about){
+				if(empty($about)){
+					$about = null;	
+				}
+				// update about
+				DB::update('update users set about = ? where uid = ?', array($about, $uid));
+				DB::insert('insert into lastModified (uid, tablename, rowid, columnname) values (?, ?, ?, ?)', array($uid, "users", Auth::user()->id, "about"));
+			}
+			
+			if($website !== Auth::user()->website){
+				if(empty($website)){
+					$website = null;	
+				}
+				// update website
+				DB::update('update users set website = ? where uid = ?', array($website, $uid));
+				DB::insert('insert into lastModified (uid, tablename, rowid, columnname) values (?, ?, ?, ?)', array($uid, "users", Auth::user()->id, "website"));
+			}
+			
+			if($facebook !== Auth::user()->facebook){
+				if(empty($facebook)){
+					$facebook = null;	
+				}
+				// update facebook
+				DB::update('update users set facebook = ? where uid = ?', array($facebook, $uid));
+				DB::insert('insert into lastModified (uid, tablename, rowid, columnname) values (?, ?, ?, ?)', array($uid, "users", Auth::user()->id, "facebook"));
+			}
+			
+			if($twitter !== Auth::user()->twitter){
+				if(empty($twitter)){
+					$twitter = null;	
+				}
+				// update twitter
+				DB::update('update users set twitter = ? where uid = ?', array($twitter, $uid));
+				DB::insert('insert into lastModified (uid, tablename, rowid, columnname) values (?, ?, ?, ?)', array($uid, "users", Auth::user()->id, "twitter"));
+			}
+			
+			if($googleplus !== Auth::user()->googleplus){
+				if(empty($googleplus)){
+					$googleplus = null;	
+				}
+				// update googleplus
+				DB::update('update users set googleplus = ? where uid = ?', array($googleplus, $uid));
+				DB::insert('insert into lastModified (uid, tablename, rowid, columnname) values (?, ?, ?, ?)', array($uid, "users", Auth::user()->id, "googleplus"));
+			}
+			
+			if($linkedin !== Auth::user()->linkedin){
+				if(empty($linkedin)){
+					$linkedin = null;	
+				}
+				// update linkedin
+				DB::update('update users set linkedin = ? where uid = ?', array($linkedin, $uid));
+				DB::insert('insert into lastModified (uid, tablename, rowid, columnname) values (?, ?, ?, ?)', array($uid, "users", Auth::user()->id, "linkedin"));
+			}
+			
+			// redirect with success
+			Session::put('success', 'Your profile has been updated successfully!');
+			$page = Redirect::to('/profile');
+		}
+		
+		return $page;
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// slides
 	Route::get('/slides/{uid?}', function($uid = null) { // default current user
@@ -310,6 +521,13 @@ Route::get('/emails/alpha', function() {
 	
 });
 
+Route::get('/emails/beta', function() {
+	$page = View::make('emails.beta');
+		
+	return $page;
+	
+});
+
 App::error(function($exception, $code)
 {
     switch ($code)
@@ -317,8 +535,8 @@ App::error(function($exception, $code)
         /*case 403:
             return Response::view('errors.403', array(), 403);*/
 
-        case 404:
-            return '404: page not found';//Response::view('errors.404', array(), 404);
+        /*case 404:
+            return '404: page not found';//Response::view('errors.404', array(), 404);*/
 
         /*case 500:
             return Response::view('errors.500', array(), 500);

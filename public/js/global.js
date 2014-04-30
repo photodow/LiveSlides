@@ -2,7 +2,7 @@ var global = {};
 
 (function(window, document, undefined){
 	
-	var app, init, validate, body, form, square, centVert;
+	var app, init, validate, body, form, square, centVert, header;
 	
 	app = {};
 	validate = {};
@@ -10,6 +10,7 @@ var global = {};
 	form = $('form');
 	square = $('.square');
 	centVert = $('.centVert');
+	header = $('header');
 	
 	
 	/* ====================================
@@ -63,32 +64,71 @@ var global = {};
 			direction: 1
 		});
 		
+		app.focusInput();
+		
+		clearTimeout(global.scrolling);
+		global.scrolling = setTimeout(function(){
+			app.scrollStop();
+		}, 1500);
+		
 	};
 	
 	// perfect square
 	app.openMenu = function () {
-		body.addClass('menuOpen')
-			.find('header nav aside')
-			.addClass('active')
-			.closest('nav')
-			.find('#closeMenu')
-			.show();
+			
+		var navTray, navTrayWidth, closeMenuBG;
+		
+		navTray = body.find('header nav aside');
+		closeMenuBG = body.find('#closeMenu');
+		navTrayWidth = '-' + navTray.width() + 'px';
+		
+		closeMenuBG.show();
+		header.children('div').animate({ marginLeft: navTrayWidth }, function(){
+			$(this).removeAttr('style');
+		});
+		body.css({ position: 'absolute', width: '100%' }).animate({ left: navTrayWidth }, function(){
+			$(this).addClass('menuOpen').removeAttr('style');	
+		});
+		navTray.css({ display: 'block', right: navTrayWidth }).animate({ right: 0 }, function(){
+			$(this).addClass('active').removeAttr('style');
+		});
+		
 	};
 	
 	app.closeMenu = function () {
-		body.removeClass('menuOpen')
-			.find('header nav aside')
-			.removeClass('active')
-			.closest('nav')
-			.find('#closeMenu')
-			.hide();
+			
+		var navTray, navTrayWidth, closeMenuBG;
+		
+		navTray = body.find('header nav aside');
+		closeMenuBG = body.find('#closeMenu');
+		navTrayWidth = '-' + navTray.width() + 'px';
+		
+		closeMenuBG.hide();
+		header.children('div').css('marginLeft', navTrayWidth).animate({ marginLeft: 0 }, function(){
+			$(this).removeAttr('style');
+		});
+		body.css({ position: 'absolute', width: '100%', left: navTrayWidth }).removeClass('menuOpen').animate({ left: 0 }, function(){
+			$(this).removeAttr('style');	
+		});
+		navTray.css({ display: 'block', right: 0 }).removeClass('active').animate({ right: navTrayWidth }, function(){
+			$(this).removeAttr('style');
+		});
+		
+		clearTimeout(global.scrolling);
+		global.scrolling = setTimeout(function(){
+			app.scrollStop();
+		}, 1500);
+		
 	};
 	
+	global.menuStatus = false;
 	app.toggleMenu = function () {
 		if(body.hasClass('menuOpen')){
 			app.closeMenu();
+			global.menuStatus = false;
 		}else{
 			app.openMenu();
+			global.menuStatus = true;
 		}
 	};
 	
@@ -105,6 +145,44 @@ var global = {};
 		padding = obj.outHeight() - obj.height();
 		
 		obj.height(parentHeight - padding);
+	}
+	
+	// focus on first input element on these pages
+	app.focusInput = function (){
+		var page = $('body').attr('id');
+		
+		switch (page) {
+			case 'register':
+			case 'login':
+			case 'password':
+			$('input').eq(0).focus();
+		}
+		
+		$('.error.input').eq(0).find('input').focus();
+	};
+	
+	app.headerHide = function(){
+		var top, viewTop, headerHeight;
+		
+		top = header.css('top');
+		viewTop = $(document).scrollTop();
+		headerHeight = header.height();
+		
+		if(top === '0px' && viewTop > headerHeight){
+			header.animate({ top: '-' + headerHeight + 'px' });
+		}
+	}
+	
+	app.headerShow = function(){
+		var top, viewTop, headerHeight;
+		
+		top = header.css('top');
+		viewTop = $(document).scrollTop();
+		headerHeight = header.height();
+		
+		if(top === ('-' + headerHeight + 'px')){
+			header.animate({ top: '0px' });
+		}
 	}
 	
 	
@@ -322,13 +400,154 @@ var global = {};
 		}
 	};
 	
+	validate.url = function(obj){
+		
+		var url, regex, group, span;
+		
+		url = validate.cleanInput(obj.val());
+		obj.val(url);
+		regex = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/g;
+		group = obj.closest('p');
+		span = group.find('label span');
+		
+		if(url.length !== 0){
+			if(url.length <= 254){
+				if(url.replace(regex, '').length === 0){
+					group.removeClass('input error');
+					span.html('Looks good!');
+				}else{
+					group.addClass('input error');
+					span.html('This is not a valid URL.');
+				}
+			}else{
+				group.addClass('input error');
+				span.html('Too many characters. Max 254');
+			}
+		}else{
+			group.removeClass('input error');
+			span.html('Please provide a valid URL.');
+		}
+			
+	};
+	
+	validate.headline = function(obj) {
+		
+		var val, group, span;
+		
+		val = validate.cleanInput(obj.val());
+		obj.val(val);
+		group = obj.closest('p');
+		span = group.find('label span');
+		
+		if(val.length !== 0){
+			if(val.length <= 64){
+				group.removeClass('input error');
+				span.html('Looks good!');
+			}else{
+				group.addClass('input error');
+				span.html('Too many characters. Max 64');
+			}
+		}else{
+			group.removeClass('input error');
+			span.html('Please add a short descriptive headline about yourself.');
+		}
+		
+	};
+	
+	validate.about = function(obj) {
+		
+		var val, group, span;
+		
+		val = validate.cleanInput(obj.val());
+		obj.val(val);
+		group = obj.closest('p');
+		span = group.find('label span');
+		
+		if(val.length !== 0){
+			group.removeClass('input error');
+			span.html('Looks good!');
+		}else{
+			group.removeClass('input error');
+			span.html('Please tell us a little about yourself.');
+		}
+		
+	};
+	
+	validate.socialAccounts = function(obj) {
+		
+		var val, group, span;
+		
+		val = validate.cleanInput(obj.val());
+		val = val.replace(/[ ]/g, '');
+		obj.val(val);
+		group = obj.closest('p');
+		span = group.find('label span');
+		
+		if(val.length !== 0){
+			if(val.length <= 64){
+				group.removeClass('input error');
+				span.html('Looks good!');
+			}else{
+				group.addClass('input error');
+				span.html('Too many characters. Max 64');
+			}
+		}else{
+			group.removeClass('input error');
+			span.html('Please add your account.');
+		}
+		
+	};
+	
 	
 	/* ====================================
 	                 EVENTS
 	   ==================================== */
 	   
-	$('.toggleMenu, nav a').on('click', function(){
+	$('.toggleMenu, #mainNav a').on('click', function(){
 		app.toggleMenu();
+	});
+	
+	global.scrollingStatus = false;
+	app.scrollStart = function(){
+		if(global.scrollingStatus === false){
+			app.headerShow();
+			global.scrollingStatus = true;
+		}
+	};
+	
+	app.scrollStop = function(){
+		app.headerHide();
+		global.scrollingStatus = false;
+	}
+	
+	global.headerMouseOverStatus = false;
+	$(document).on('mousemove', function(e){
+		console.log(e.clientY + ' < ' + header.height());
+		if(e.clientY < header.height()){
+			app.scrollStart();
+			global.headerMouseOverStatus = true;
+			clearTimeout(global.scrolling);
+		}else{
+			clearTimeout(global.scrolling);
+			global.scrolling = setTimeout(function(){
+				if(!global.menuStatus){
+					app.scrollStop();
+				}
+			}, 1500);
+			global.headerMouseOverStatus = false;
+		}
+	});
+	
+	$(document).on('scroll', function(){
+		app.scrollStart();
+		clearTimeout(global.scrolling);
+		if(!global.headerMouseOverStatus){
+			global.scrolling = setTimeout(function(){
+				if(!global.menuStatus){
+					app.scrollStop();
+				}
+			}, 1500);
+		}
 	});
 	
 	form.on('focus', 'input, textarea', function(){
@@ -356,6 +575,14 @@ var global = {};
 			validate.require(that);	
 		}else if(validateType === 'fullName'){
 			validate.fullName(that);	
+		}else if(validateType === 'url'){
+			validate.url(that);	
+		}else if(validateType === 'headline'){
+			validate.headline(that);	
+		}else if(validateType === 'about'){
+			validate.about(that);	
+		}else if(validateType === 'socialAccounts'){
+			validate.socialAccounts(that);	
 		}
 	});
 	

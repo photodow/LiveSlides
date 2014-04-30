@@ -25,7 +25,7 @@ body {
 	background: radial-gradient(ellipse at center,  #21b9da 0%,#1a9ecc 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#21b9da', endColorstr='#1a9ecc',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 	
-	background-attachment: fixed;	
+	background-attachment: fixed;
 }
 
 h2 {
@@ -261,7 +261,7 @@ body > header nav > aside ul li a:active, body > header nav > aside ul li a:acti
 body.menuOpen{
 	position: absolute;
 	width: 100%;
-	left: -200px	
+	left: -200px;
 }
 
 body.menuOpen > header > div {
@@ -1049,7 +1049,7 @@ form .moreinfo li a:active {
 }
 
 /* profile */
-#profile .contentWrapper, #slides .contentWrapper {
+#profile .contentWrapper, #slides .contentWrapper, #profileEdit .contentWrapper {
 	max-width: 900px;
 	margin-left: auto;
 	margin-right: auto;
@@ -1060,7 +1060,7 @@ form .moreinfo li a:active {
 
 /* slides */
 
-#slides .contentWrapper > .slides, #profile .contentWrapper > .profile {
+#slides .contentWrapper > .slides, #profile .contentWrapper > .profile, #profileEdit .contentWrapper > .profileEdit {
 	padding-bottom: 0;
 }
 
@@ -1137,7 +1137,12 @@ form .moreinfo li a:active {
 
 #profile .profile header {
 	position: relative;
-	overflow: hidden;
+	width: 100%;
+	
+	/* clearfix */
+	content: "";
+	display: table;
+	clear: both;
 }
 
 #profile .profile article {
@@ -1292,14 +1297,105 @@ form .moreinfo li a:active {
 	margin-right: 5px;
 }
 
+#profile .profile .about .body {
+	min-height: 75px;
+}
+
 #profile .profile .presentations li {
 	width: 21.25%;
 	margin-left: 5%;
 }
 
-#profile .profile .edit {
+#profile .profile .edit.empty {
 	color: #bfbfbf !important;
 	font-style: italic;
+}
+
+#profileEdit .profileEdit h2 {
+	font-size: 2em;
+	color: #343434;
+	margin: 0;
+}
+
+#profileEdit .profileEdit form {
+	width: auto;
+	margin: 0;
+	box-shadow: none;
+}
+
+#profileEdit .profileEdit form p:last-of-type {
+	margin-bottom: 20px;
+}
+
+#profileEdit .profileEdit form p span.href {
+	padding: 5px;
+	padding-left: 0;
+	padding-right: 0;
+	font-size: 1.15em;
+	color: #888;
+}
+
+#profileEdit .profileEdit form label span {
+	color: #fff;
+	background: #515151;
+	font-size: .85em;
+	top: 19px;
+}
+
+#profileEdit .profileEdit form label span:before {
+	color: #515151;
+}
+
+#profileEdit .profileEdit form p.input.error label span {
+	color: #FFD5D5;
+	background: #D54747;
+}
+
+#profileEdit .profileEdit form p.input.error label span:before {
+	color: #D54747;
+}
+
+#profileEdit .profileEdit form input.social {
+	width: 125px;
+}
+
+#profileEdit .profileEdit form input, #profileEdit .profileEdit form textarea {
+	font-weight: lighter;
+}
+
+#profileEdit .profileEdit form .about {
+	height: 150px;
+}
+
+#profileEdit .profileEdit form fieldset {
+	border: 0;
+	border-top: 1px dashed #ddd;
+	padding: 0;
+	margin: 0;
+	margin-bottom: 40px;
+}
+
+#profileEdit .profileEdit form fieldset legend {
+	color: #aaa;
+	padding-right: 10px;
+	font-style: italic;
+}
+
+#profileEdit .profileEdit form fieldset p {
+	margin-left: 20px;
+	margin-top: 20px;
+	font-size: .8em;
+}
+
+#profileEdit .profileEdit form p {
+
+	position: relative;
+	
+}
+
+#profileEdit .profileEdit form input {
+	width: auto;
+	padding: 7px;
 }
 
 section.left, aside.sidebar {
@@ -1355,15 +1451,24 @@ aside.sidebar nav ul li a {
 	border-radius: 3px;
 }
 
-aside.sidebar nav ul li a i {
-	margin-right: 5px;
-}
-
-aside.sidebar nav ul li a:hover, #slides aside.sidebar nav ul li a.slides, #profile aside.sidebar nav ul li a.profile {
+#slides aside.sidebar nav ul li a.slides, #profile aside.sidebar nav ul li a.profile, #profileEdit aside.sidebar nav ul li a.profileEdit {
 	color: #008aba;
 	background: #eaeaea;
 }
 
+aside.sidebar nav ul li a i {
+	margin-right: 5px;
+}
+
 aside.sidebar nav ul li a:active {
 	color: #c74d38;
+}
+
+aside.sidebar nav:hover ul li a {
+	background: none!important;
+}
+
+aside.sidebar nav ul li a:hover {
+	color: #008aba;
+	background: #eaeaea!important;
 }

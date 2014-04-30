@@ -1,10 +1,22 @@
-<section class="profile left">
-	<header><?php
-	if($uid === null){
-		$uid = Auth::user()->uid;
+<?php
+
+	if(Session::has('success')){
+		$success = Session::get('success');
+		Session::forget('success');
+	}else{
+		$success = false;
 	}
 	
-	$userProfile = DB::select('select first, last, uid, headline, email, about from users where uid = ?', array($uid));
+?>
+
+<section class="profile left">
+	<?php if($success){ ?>
+	<p class="success"><i class="icon-check" style="font-size: 1.25em;"></i> <?php echo $success; ?></p>
+    <?php } ?>
+	<header><?php
+	
+	// user profile data
+	$userProfile = DB::select('SELECT first, last, uid, headline, email, website, facebook, twitter, googleplus, linkedin, about FROM users WHERE uid = ?', array($uid));
 	
 	if(!empty($userProfile)){
 		$userProfile = $userProfile[0];
@@ -12,53 +24,68 @@
 		App::abort(404);
 	}
 	
-	$userName = $userProfile->first . ' ' . $userProfile->last;
-	
+	$name = $userProfile->first . ' ' . $userProfile->last;
 	$headline = $userProfile->headline;
-	$headlineEdit = false;
-	
-	if($headline === null){
-		$headline = 'Click here to add a descriptive headline!';
-		$headlineEdit = true;
-	}
-	
-	$email = $userProfile->email;
-	
 	$about = $userProfile->about;
-	$aboutEdit = false;
+	$email = $userProfile->email;
+	$website = $userProfile->website;
+	$facebook = $userProfile->facebook;
+	$twitter = $userProfile->twitter;
+	$googleplus = $userProfile->googleplus;
+	$linkedin = $userProfile->linkedin;
 	
-	if($about === null){
-		$about = 'Click here to write a little about yourself!';
-		$aboutEdit = true;
+	// trims the $headline to a manageble/unified length (consider revising)
+	if(strlen($headline) > 32){
+		$headline = trim(substr($headline, 0, 32)) . '...';
 	}
 	
-	$socialMedia = DB::select('select * from socialMedia where uid = ?', array($uid));
+	// formats the $about text
+	$about = preg_replace('/\n(\s*\n)+/', '</p><p>', $about);
+	$about = preg_replace('/\n/', '<br>', $about);
+	$about = '<p>'.$about.'</p>';
+	
+	
+	// number of presentations
+	$numPresentations = DB::select('SELECT COUNT(id) as count FROM presentations WHERE uid = ?', array($uid));
+	$numPresentations = $numPresentations[0]->count;
 ?>
-    	<img src="/img/noProfileImg.png" alt="<?php echo $userName; ?>'s Profile Image" />
+    	<img src="/img/noProfileImg.png" alt="<?php echo $name; ?>'s Profile Image" />
         <div class="centVert">
-            <h2><?php echo $userName; ?></h2>
-            <p class="headline<?php if($headlineEdit){ echo ' edit'; } ?>"<?php  if($headlineEdit){ echo ' data-defaultText="' . $headline . '"'; } ?>><?php echo $headline; ?></p>
+            <h2><?php echo $name; ?></h2>
+            <p class="headline"><?php echo $headline; ?></p>
             <aside class="social">
                 <ul>
                     <li><a href="mailto:<?php echo $email ?>" class="email" title="Email"><i class="icon-envelope"></i></a></li>
-                    <?php /*<li><a href="#" class="website" title="Website"><i class="icon-globe"></i></a></li>
-                    <li><a href="https://www.facebook.com/" class="facebook" title="Facebook"><i class="icon-facebook-square"></i></a></li>
-                    <li><a href="https://twitter.com/" class="twitter" title="Twitter"><i class="icon-twitter"></i></a></li>
-                    <li><a href="https://plus.google.com/‎" class="googleplus" title="Google Plus"><i class="icon-google-plus-square"></i></a></li>
-                    <li><a href="https://www.linkedin.com/" class="linkedin" title="LinkedIn"><i class="icon-linkedin-square"></i></a></li>*/ ?>
+                    <?php if($website !== null){ ?>
+                    <li><a href="<?php echo $website; ?>" class="website" title="Website"><i class="icon-globe"></i></a></li>
+                    <?php } ?>
+                    <?php if($facebook !== null){ ?>
+                    <li><a href="https://www.facebook.com/<?php echo $facebook; ?>" class="facebook" title="Facebook"><i class="icon-facebook-square"></i></a></li>
+                    <?php } ?>
+                    <?php if($twitter !== null){ ?>
+                    <li><a href="https://twitter.com/<?php echo $twitter; ?>" class="twitter" title="Twitter"><i class="icon-twitter"></i></a></li>
+                    <?php } ?>
+                    <?php if($googleplus !== null){ ?>
+                    <li><a href="https://plus.google.com/<?php echo $googleplus; ?>‎" class="googleplus" title="Google Plus"><i class="icon-google-plus-square"></i></a></li>
+                    <?php } ?>
+                    <?php if($linkedin !== null){ ?>
+                    <li><a href="https://www.linkedin.com/in/<?php echo $linkedin; ?>" class="linkedin" title="LinkedIn"><i class="icon-linkedin-square"></i></a></li>
+                    <?php } ?>
                 </ul>
             </aside>
         </div>
-        <?php /*<aside class="stats">
+        <aside class="stats">
         	<ul>
-            	<li class="followers"><i class="icon-group"></i> <span class="num">5 Follower<span class="plural">s</span></li>
-            	<li class="presentation"><i class="icon-youtube-play"></i> <span class="num">10</span> Presentation<span class="plural">s</span></li>
+            	<?php /*<li class="followers"><i class="icon-group"></i> <span class="num">5 Follower<span class="plural">s</span></li>*/ ?>
+            	<li class="presentation"><i class="icon-youtube-play"></i> <span class="num"><?php echo $numPresentations; ?></span> Presentation<span class="plural">s</span></li>
             </ul>
-        </aside> */ ?>
+        </aside>
     </header>
     <article class="about">
     	<h3>About</h3>
-        <p<?php  if($aboutEdit){ echo ' class="edit"'; } ?><?php  if($aboutEdit){ echo ' data-defaultText="' . $about . '"'; } ?>><?php echo $about; ?></p>
+        <div class="body">
+        	<p><?php echo $about; ?></p>
+        </div>
     </article>
     <?php /*<article>
     	<h3>Featured</h3>
@@ -79,4 +106,5 @@
         </ul>
     </article>*/ ?>
 </section>
+
 <?php echo $sidebar; ?>
