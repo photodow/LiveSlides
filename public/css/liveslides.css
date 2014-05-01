@@ -10,6 +10,10 @@ html, body {
 	width: 100%;
 }
 
+#presentation h1 {
+	font-size: 2em;
+}
+
 #presentation article {
 	visibility: hidden;
 	height: 100%;
@@ -24,6 +28,10 @@ html, body {
 
 #presentation article.active {
 	visibility: visible;
+}
+
+#presentation article h1 {
+	font-size: 2em;
 }
 
 #controls {

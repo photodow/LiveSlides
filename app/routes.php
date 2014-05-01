@@ -13,7 +13,7 @@
 
 
 // Home
-Route::get('/', function() {
+Route::get('/', array('as' => 'home', function() {
 	$page = View::make('page', array('page' => 'home', 'title' => 'Present Slides Live'))
 		->nest('localStyles', 'localStyle.home')
 		->nest('header', 'header')
@@ -23,7 +23,7 @@ Route::get('/', function() {
 		
 	return $page;
 	
-});
+}));
 
 function noAuth($page){
 	if(Auth::check()){
@@ -175,10 +175,37 @@ Route::post('/register/process', function(){
 // Slide
 Route::get('/slide/{slideId?}', function($slideId = null) { // slide id required
 
-	$page = View::make('pageSlide', array('page' => 'slide', 'title' => 'Presenting Slide'))
-		->nest('localStyles', 'localStyle.slide')
-		->nest('pageContent', 'slide')
-		->nest('localScripts', 'localScript.slide');
+	$page = Redirect::route('home');
+	
+	if($slideId !== null){
+		$validator = Validator::make(
+			array(
+				'slideId' => $slideId
+			),
+			array(
+				'slideId' => 'unique:presentations,pid'
+			)
+		);
+		
+		if ($validator->fails()){
+			
+			if (Auth::check()){
+				$useruid = Auth::user()->uid;
+			}else{
+				$useruid = null;
+			}
+	
+			$presentation = DB::select('SELECT * FROM presentations WHERE pid = ?', array($slideId));
+			$presentation = $presentation[0];
+			$presenter = $presentation->uid;
+			
+			$page = View::make('pageSlide', array('page' => 'slide', 'title' => 'Presenting Slide'))
+				->nest('localStyles', 'localStyle.slide')
+				->nest('pageContent', 'slide', array('presentation' => $presentation))
+				->nest('localScripts', 'localScript.slide', array('presenter' => $presenter, 'useruid' => $useruid));
+				
+		}
+	}
 		
 	return $page;
 	
@@ -450,20 +477,6 @@ Route::group(array('before' => 'auth'), function(){
 		
 		return $page;
 	});
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	// slides
 	Route::get('/slides/{uid?}', function($uid = null) { // default current user

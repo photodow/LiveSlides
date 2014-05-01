@@ -10,7 +10,29 @@ global = {};
 	numSlides = presentation.find('article').length;
 	controls = $('#controls');
 	
-	 
+	
+	
+	/* ====================================
+	                GLOBALS
+	   ==================================== */
+	   
+	global.get = function (parameter) {
+	
+		var queryString, regex, variableString, value;
+	
+		queryString = document.location.search;
+		regex = new RegExp("(" + parameter + "=){1}(.(?!\&))*(.(?=\&))?");
+	
+		if (regex.test(queryString)) {
+			variableString = regex.exec(queryString);
+			value = decodeURIComponent(variableString[0].substr(parameter.length + 1));
+		} else {
+			value = false;
+		}
+	
+		return value;
+	};
+	
 	
 	
 	/* ====================================
@@ -20,6 +42,10 @@ global = {};
 	slide.ini = function(){
 		
 		slide.setCurrentPage();
+		
+		if(Number(global.get('page'))){
+			slide.pageGoTo(Number(global.get('page')));
+		}
 		
 	};
 	
@@ -84,6 +110,14 @@ global = {};
 					nextPage.addClass('active').removeAttr('style');
 					slide.setCurrentPage();
 				}
+			);
+			
+			transition.slideFade(
+				currentPage,
+				slide.getTransitionOut(currentPage),
+				slide.getDelay(nextPage),
+				slide.getSpeed(nextPage),
+				slide.getEasing(nextPage)
 			);
 			
 		}
@@ -272,14 +306,12 @@ global = {};
 	controls.on('click', '.next', function(){ // next slide
 		if(!transition.status){
 			slide.pageNext();
-			console.log('next');
 		}
 	});
 	
 	controls.on('click', '.back', function(){ // previous slide
 		if(!transition.status){
 			slide.pageBack();
-			console.log('back');
 		}
 	});
 	
