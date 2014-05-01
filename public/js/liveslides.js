@@ -8,13 +8,15 @@ global = {};
 	transition = {};
 	presentation = $('#presentation');
 	numSlides = presentation.find('article').length;
-	controls = $('#controls');
 	
 	
 	
 	/* ====================================
 	                GLOBALS
 	   ==================================== */
+	   
+	
+	global.controls = $('#controls');
 	   
 	global.get = function (parameter) {
 	
@@ -33,6 +35,40 @@ global = {};
 		return value;
 	};
 	
+	global.pageGoTo = function(page){
+		
+		if(Number(page) > 0 && Number(page) <= numSlides){
+			
+			var nextPage;
+			
+			nextPage = presentation.find('article').eq(page - 1);
+			
+			transition.slideFade(
+				nextPage,
+				slide.getTransitionIn(nextPage),
+				slide.getDelay(nextPage),
+				slide.getSpeed(nextPage),
+				slide.getEasing(nextPage),
+				function(){
+					currentPage.removeClass('active').removeAttr('style');
+					nextPage.addClass('active').removeAttr('style');
+					slide.setCurrentPage();
+					slide.syncPages();
+				}
+			);
+			
+			transition.slideFade(
+				currentPage,
+				slide.getTransitionOut(currentPage),
+				slide.getDelay(nextPage),
+				slide.getSpeed(nextPage),
+				slide.getEasing(nextPage)
+			);
+			
+		}
+		
+	};
+	
 	
 	
 	/* ====================================
@@ -44,13 +80,22 @@ global = {};
 		slide.setCurrentPage();
 		
 		if(Number(global.get('page'))){
-			slide.pageGoTo(Number(global.get('page')));
+			global.pageGoTo(Number(global.get('page')));
 		}
 		
 	};
 	
-	slide.sync = function(){
+	slide.syncPages = function(){
+	
+		if(global.hasOwnProperty('syncPages')){
+			global.syncPages(currentPageNum);
+		}	
 		
+	};
+	
+	slide.updatePageViews = function(){
+		// update the amount page loads for the live sessions
+		// update the amount of page loads for the slide
 	};
 	
 	slide.setCurrentPage = function(obj){
@@ -91,39 +136,6 @@ global = {};
 		
 	};
 	
-	slide.pageGoTo = function(page){
-		
-		if(Number(page) > 0 && Number(page) <= numSlides){
-			
-			var nextPage;
-			
-			nextPage = presentation.find('article').eq(page - 1);
-			
-			transition.slideFade(
-				nextPage,
-				slide.getTransitionIn(nextPage),
-				slide.getDelay(nextPage),
-				slide.getSpeed(nextPage),
-				slide.getEasing(nextPage),
-				function(){
-					currentPage.removeClass('active').removeAttr('style');
-					nextPage.addClass('active').removeAttr('style');
-					slide.setCurrentPage();
-				}
-			);
-			
-			transition.slideFade(
-				currentPage,
-				slide.getTransitionOut(currentPage),
-				slide.getDelay(nextPage),
-				slide.getSpeed(nextPage),
-				slide.getEasing(nextPage)
-			);
-			
-		}
-		
-	};
-	
 	slide.pageNext = function(){
 		
 		if(currentPageNum < numSlides){
@@ -138,6 +150,7 @@ global = {};
 					currentPage.removeClass('active').removeAttr('style');
 					nextPage.addClass('active').removeAttr('style');
 					slide.setCurrentPage();
+					slide.syncPages();
 				}
 			);
 			
@@ -166,6 +179,7 @@ global = {};
 					currentPage.removeClass('active').removeAttr('style');
 					previousPage.addClass('active').removeAttr('style');
 					slide.setCurrentPage();
+					slide.syncPages();
 				}
 			);
 			
@@ -303,13 +317,13 @@ global = {};
 	                  EVENTS
 	   ==================================== */
 	
-	controls.on('click', '.next', function(){ // next slide
+	global.controls.on('click', '.next', function(){ // next slide
 		if(!transition.status){
 			slide.pageNext();
 		}
 	});
 	
-	controls.on('click', '.back', function(){ // previous slide
+	global.controls.on('click', '.back', function(){ // previous slide
 		if(!transition.status){
 			slide.pageBack();
 		}

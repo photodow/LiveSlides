@@ -211,6 +211,74 @@ Route::get('/slide/{slideId?}', function($slideId = null) { // slide id required
 	
 });
 
+// live slide udpate
+Route::post('/live/update', function() {
+	
+	$page = Response::make('{"error":"lid doesn\'t exist"}', '200')->header('Content-Type', 'application/json');
+	
+	if(!empty($_GET['lid']) && !empty($_POST['newPageNum'])){
+		
+		$lid = $_GET['lid'];
+		
+		$validator = Validator::make(
+			array(
+				'lid' => $lid
+			),
+			array(
+				'lid' => 'unique:presentationsLive,lid'
+			)
+		);
+		
+		if ($validator->fails()){
+			
+			$newPageNum = $_POST['newPageNum'];
+			
+			DB::update('UPDATE presentationsLive SET currentpage = ? WHERE lid = ?', array($newPageNum, $lid));
+			
+			$page = Response::make('{"response":"success"}', '200')->header('Content-Type', 'application/json');
+		}
+	}
+
+	return $page;
+	
+});
+
+// live slide udpate
+Route::get('/live/get', function() {
+	
+	$lid = $_GET['lid'];
+	$page = Response::make('{"error":"lid doesn\'t exist"}', '200')->header('Content-Type', 'application/json');
+	
+	if(!empty($lid)){
+		$validator = Validator::make(
+			array(
+				'lid' => $lid
+			),
+			array(
+				'lid' => 'unique:presentationsLive,lid'
+			)
+		);
+		
+		if ($validator->fails()){
+	
+			if(true){
+				
+				$status = DB::select('SELECT * FROM presentationsLive WHERE lid = ?', array($lid));
+				$status = $status[0];
+				
+				$currentPage = $status->currentpage;
+				
+				$page = Response::make('{"currentPage":"' . $currentPage . '"}', '200')->header('Content-Type', 'application/json');
+				
+			}
+			
+		}
+	}
+	
+	return $page;
+	
+});
+
 // Logout
 Route::get('/logout', function() {
 	
