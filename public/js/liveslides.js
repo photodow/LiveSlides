@@ -152,7 +152,9 @@ global = {};
 	               TRANSITIONS
 	   ==================================== */
 	   
-	transition.animations = [];
+	transition.wait = [];
+	
+	transition.status = false;
 	   
 	transition.slideFade = function(obj, type, delay, speed, easing, callback){
 		
@@ -239,17 +241,17 @@ global = {};
 			(function(that, prepAnimation, speed, easing, callback){
 				
 				global.delaySlideFade = setTimeout(function(){
-					transition.animations.push(that.animate(prepAnimation, speed, easing, function(){
-						//that.removeAttr('style');
-						
+					transition.status = true;
+					transition.wait.push(that.animate(prepAnimation, speed, easing, function(){
 					
-						$.when.apply(null, transition.animations).done(function () {
+						$.when.apply(null, transition.wait).done(function () {
 							
 							callback(that);
-							
 							transition.animations = [];
+							transition.status = false;
 							
 						});
+						
 					}));
 					
 				}, delay);
@@ -268,11 +270,17 @@ global = {};
 	   ==================================== */
 	
 	controls.on('click', '.next', function(){ // next slide
-		slide.pageNext();
+		if(!transition.status){
+			slide.pageNext();
+			console.log('next');
+		}
 	});
 	
 	controls.on('click', '.back', function(){ // previous slide
-		slide.pageBack();
+		if(!transition.status){
+			slide.pageBack();
+			console.log('back');
+		}
 	});
 	
 	
