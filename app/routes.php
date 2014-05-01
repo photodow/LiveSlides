@@ -414,13 +414,13 @@ Route::group(array('before' => 'auth'), function(){
 			return 'This is not a valid URL.';
 		});
 		
-		Validator::extend('width132', function($attribute, $value, $parameters) {
+		Validator::extend('width162', function($attribute, $value, $parameters) {
 			
 			$result = true;
 			if(!empty($value['tmp_name'])){
 				$size = getimagesize($value['tmp_name']);
 				
-				if($size[0] < '132' || $size[1] < '132'){
+				if($size[0] < '162' || $size[1] < '162'){
 					$result = false;
 				}
 			}
@@ -428,8 +428,8 @@ Route::group(array('before' => 'auth'), function(){
 			return $result;
 		});
 		
-		Validator::replacer('width132', function($message, $attribute, $rule, $parameters) {
-			return 'Your image must be at least 132 x 132.';
+		Validator::replacer('width162', function($message, $attribute, $rule, $parameters) {
+			return 'Your image must be at least 162 x 162.';
 		});
 		
 		if(!empty($currentPassword) || !empty($newPassword) || !empty($verifyNewPassword)){
@@ -460,7 +460,7 @@ Route::group(array('before' => 'auth'), function(){
 				'verifyNewPassword' => $verifyNewPassword
 			),
 			array(
-				'profileImage' => 'image|width132',
+				'profileImage' => 'image|width162',
 				'headline' => 'max:64',
 				'about' => '',
 				'email' => $validateEmail,

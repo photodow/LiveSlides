@@ -7,12 +7,6 @@
 		$success = false;
 	}
 	
-	if(Auth::user()->photo === null){
-		$profileImage = 'noProfileImg.png';
-	}else{
-		$profileImage = Auth::user()->photo;	
-	}
-	
 ?>
 
 <section class="profile left">
@@ -22,12 +16,18 @@
 	<header><?php
 	
 	// user profile data
-	$userProfile = DB::select('SELECT first, last, uid, headline, email, website, facebook, twitter, googleplus, linkedin, about FROM users WHERE uid = ?', array($uid));
+	$userProfile = DB::select('SELECT * FROM users WHERE uid = ?', array($uid));
 	
 	if(!empty($userProfile)){
 		$userProfile = $userProfile[0];
 	}else{
 		App::abort(404);
+	}
+	
+	if($userProfile->photo === null){
+		$profileImage = 'noProfileImg.png';
+	}else{
+		$profileImage = $userProfile->photo;	
 	}
 	
 	$name = $userProfile->first . ' ' . $userProfile->last;
