@@ -16,8 +16,6 @@
 					
 						var currentPage = data.currentPage;
 						
-						console.log(currentPage);
-						
 						if(lastPage !== currentPage){ // prevent going to page every interval
 							
 							global.pageGoTo(currentPage); // go to page
