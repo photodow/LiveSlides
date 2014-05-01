@@ -55,7 +55,6 @@ global = {};
 	};
 	
 	slide.getSpeed = function(obj){
-		
 		return obj.data('speed');
 		
 	};
@@ -81,8 +80,8 @@ global = {};
 				slide.getSpeed(nextPage),
 				slide.getEasing(nextPage),
 				function(){
-					currentPage.removeClass('active');
-					nextPage.addClass('active');
+					currentPage.removeClass('active').removeAttr('style');
+					nextPage.addClass('active').removeAttr('style');
 					slide.setCurrentPage();
 				}
 			);
@@ -102,8 +101,8 @@ global = {};
 				slide.getSpeed(nextPage),
 				slide.getEasing(nextPage),
 				function(){
-					currentPage.removeClass('active');
-					nextPage.addClass('active');
+					currentPage.removeClass('active').removeAttr('style');
+					nextPage.addClass('active').removeAttr('style');
 					slide.setCurrentPage();
 				}
 			);
@@ -111,9 +110,9 @@ global = {};
 			transition.slideFade(
 				currentPage,
 				slide.getTransitionOut(currentPage),
-				slide.getDelay(currentPage),
-				slide.getSpeed(currentPage),
-				slide.getEasing(currentPage)
+				slide.getDelay(nextPage),
+				slide.getSpeed(nextPage),
+				slide.getEasing(nextPage)
 			);
 		}
 		
@@ -130,8 +129,8 @@ global = {};
 				slide.getSpeed(previousPage),
 				slide.getEasing(previousPage),
 				function(){
-					currentPage.removeClass('active');
-					previousPage.addClass('active');
+					currentPage.removeClass('active').removeAttr('style');
+					previousPage.addClass('active').removeAttr('style');
 					slide.setCurrentPage();
 				}
 			);
@@ -139,9 +138,9 @@ global = {};
 			transition.slideFade(
 				currentPage,
 				slide.getTransitionOut(currentPage),
-				slide.getDelay(currentPage),
-				slide.getSpeed(currentPage),
-				slide.getEasing(currentPage)
+				slide.getDelay(previousPage),
+				slide.getSpeed(previousPage),
+				slide.getEasing(previousPage)
 			);
 			
 		}
@@ -150,8 +149,10 @@ global = {};
 	
 	
 	/* ====================================
-	           TRANSITION FUNCTIONS
+	               TRANSITIONS
 	   ==================================== */
+	   
+	transition.animations = [];
 	   
 	transition.slideFade = function(obj, type, delay, speed, easing, callback){
 		
@@ -238,10 +239,18 @@ global = {};
 			(function(that, prepAnimation, speed, easing, callback){
 				
 				global.delaySlideFade = setTimeout(function(){
-					that.animate(prepAnimation, speed, easing, function(){
-						that.removeAttr('style');
-						callback(that);
-					});
+					transition.animations.push(that.animate(prepAnimation, speed, easing, function(){
+						//that.removeAttr('style');
+						
+					
+						$.when.apply(null, transition.animations).done(function () {
+							
+							callback(that);
+							
+							transition.animations = [];
+							
+						});
+					}));
 					
 				}, delay);
 				
