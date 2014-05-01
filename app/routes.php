@@ -539,20 +539,27 @@ Route::get('/emails/beta', function() {
 	
 });
 
+Route::get('/emails/production', function() {
+	$page = View::make('emails.prod');
+		
+	return $page;
+	
+});
+
 App::error(function($exception, $code)
 {
     switch ($code)
     {
         /*case 403:
-            return Response::view('errors.403', array(), 403);*/
+            return Redirect::route('home');//Response::view('errors.403', array(), 403);*/
 
-        /*case 404:
-            return '404: page not found';//Response::view('errors.404', array(), 404);*/
+        case 404:
+            return Redirect::route('home');//Response::view('errors.404', array(), 404);*/
 
         /*case 500:
-            return Response::view('errors.500', array(), 500);
+            return  Redirect::route('home');//Response::view('errors.500', array(), 500);
 
         default:
-            return Response::view('errors.default', array(), $code);*/
+            return  Redirect::route('home');//Response::view('errors.default', array(), $code);*/
     }
 });
