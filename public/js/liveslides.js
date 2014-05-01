@@ -2,12 +2,13 @@ global = {};
 
 (function(window, document, undefined){
 	
-	var slide, transition, presentation, nextPage, previousPage, currentPage, numSlides, currentPageNum;
+	var slide, transition, presentation, controls, nextPage, previousPage, currentPage, numSlides, currentPageNum;
 	
 	slide = {};
 	transition = {};
 	presentation = $('#presentation');
 	numSlides = presentation.find('article').length;
+	controls = $('#controls');
 	
 	 
 	
@@ -19,7 +20,6 @@ global = {};
 	slide.ini = function(){
 		
 		slide.setCurrentPage();
-		transition.slideFade(currentPage, slide.getTransition(currentPage, 'in'));
 		
 	};
 	
@@ -36,9 +36,33 @@ global = {};
 		
 	};
 	
-	slide.getTransition = function(obj, introExit){
+	slide.getTransitionIn = function(obj){
 		
-		return obj.data(introExit);
+		return obj.data('in');
+		
+	};
+	
+	slide.getTransitionOut = function(obj){
+		
+		return obj.data('out');
+		
+	};
+	
+	slide.getDelay = function(obj){
+		
+		return obj.data('delay');
+		
+	};
+	
+	slide.getSpeed = function(obj){
+		
+		return obj.data('speed');
+		
+	};
+	
+	slide.getEasing = function(obj){
+		
+		return obj.data('easing');
 		
 	};
 	
@@ -50,11 +74,18 @@ global = {};
 			
 			nextPage = presentation.find('article').eq(page - 1);
 			
-			transition.slideFade(nextPage, slide.getTransition(nextPage, 'in'), undefined, undefined, undefined, function(){
-				currentPage.removeClass('active');
-				nextPage.addClass('active');
-				slide.setCurrentPage();
-			});
+			transition.slideFade(
+				nextPage,
+				slide.getTransitionIn(nextPage),
+				slide.getDelay(nextPage),
+				slide.getSpeed(nextPage),
+				slide.getEasing(nextPage),
+				function(){
+					currentPage.removeClass('active');
+					nextPage.addClass('active');
+					slide.setCurrentPage();
+				}
+			);
 			
 		}
 		
@@ -63,12 +94,27 @@ global = {};
 	slide.pageNext = function(){
 		
 		if(currentPageNum < numSlides){
-			transition.slideFade(nextPage, slide.getTransition(nextPage, 'in'), undefined, undefined, undefined, function(){
-				currentPage.removeClass('active');
-				nextPage.addClass('active');
-				slide.setCurrentPage();
-			});
-			transition.slideFade(currentPage, slide.getTransition(currentPage, 'out'));
+			
+			transition.slideFade(
+				nextPage,
+				slide.getTransitionIn(nextPage),
+				slide.getDelay(nextPage),
+				slide.getSpeed(nextPage),
+				slide.getEasing(nextPage),
+				function(){
+					currentPage.removeClass('active');
+					nextPage.addClass('active');
+					slide.setCurrentPage();
+				}
+			);
+			
+			transition.slideFade(
+				currentPage,
+				slide.getTransitionOut(currentPage),
+				slide.getDelay(currentPage),
+				slide.getSpeed(currentPage),
+				slide.getEasing(currentPage)
+			);
 		}
 		
 	};
@@ -76,12 +122,28 @@ global = {};
 	slide.pageBack = function(){
 		
 		if(currentPageNum > 1){
-			transition.slideFade(previousPage, slide.getTransition(previousPage, 'in'), undefined, undefined, undefined, function(){
-				currentPage.removeClass('active');
-				previousPage.addClass('active');
-				slide.setCurrentPage();
-			});
-			transition.slideFade(currentPage, slide.getTransition(currentPage, 'out'));
+			
+			transition.slideFade(
+				previousPage,
+				slide.getTransitionIn(previousPage),
+				slide.getDelay(previousPage),
+				slide.getSpeed(previousPage),
+				slide.getEasing(previousPage),
+				function(){
+					currentPage.removeClass('active');
+					previousPage.addClass('active');
+					slide.setCurrentPage();
+				}
+			);
+			
+			transition.slideFade(
+				currentPage,
+				slide.getTransitionOut(currentPage),
+				slide.getDelay(currentPage),
+				slide.getSpeed(currentPage),
+				slide.getEasing(currentPage)
+			);
+			
 		}
 		
 	};
@@ -196,9 +258,14 @@ global = {};
 	                  EVENTS
 	   ==================================== */
 	
-	$('body').on('click', function(){
+	controls.on('click', '.next', function(){ // next slide
 		slide.pageNext();
 	});
+	
+	controls.on('click', '.back', function(){ // previous slide
+		slide.pageBack();
+	});
+	
 	
 	
 	slide.ini();
