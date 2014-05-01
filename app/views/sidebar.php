@@ -4,12 +4,20 @@
 		$authName = Auth::user()->first . ' ' . Auth::user()->last;
 	}
 	
+	if(Auth::user()->photo === null){
+		$profileImage = 'noProfileImg.png';
+	}else{
+		$profileImage = Auth::user()->photo;	
+	}
+	
 ?>
 
 <aside class="sidebar right">
 	<?php if(Auth::check()){ ?>
 	<div class="user">
-    	<img src="/img/noProfileImg.png" alt="<?php echo $authName; ?>'s Profile Image" />
+    	<div class="profileImageContainer">
+    		<img src="/img/userphotos/<?php echo $profileImage; ?>" alt="<?php echo $authName; ?>'s Profile Image" />
+        </div>
 		<h2><?php echo $authName; ?></h2>
     </div>
     <?php } ?>

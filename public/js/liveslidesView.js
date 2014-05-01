@@ -30,6 +30,9 @@
 			});
 			
 		}, 1000); // 1 second interval
+		
+		
+		$('#controls').remove();
 	}
 	
 }(window, document, undefined));

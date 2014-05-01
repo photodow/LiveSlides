@@ -86,6 +86,11 @@ p {
 	background-color: #FFD5D5 !important;
 }
 
+.profileImageContainer {
+	overflow: hidden;
+	display: inline-block;
+}
+
 /* header style */
 
 body > header {
@@ -1161,11 +1166,17 @@ form .moreinfo li a:active {
 	margin: 0;
 }
 
-#profile .profile header img {
-	float: left;
+#profile .profile header .profileImageContainer {
+	width: 132px;
+	height: 132px;
 	border-radius: 50%;
-	box-shadow: 0 1px 2px rgba(0,0,0, .2);
+	float: left;
+	box-shadow: 0 1px 2px rgba(0,aside.sidebar .user img0,0, .2);
 	margin-right: 20px;
+}
+
+#profile .profile header .profileImageContainer img {
+	width: 100%;
 }
 
 #profile .profile header .headline {
@@ -1398,6 +1409,30 @@ form .moreinfo li a:active {
 	padding: 7px;
 }
 
+#profileEdit .profileImage .profileImageContainer {
+	width: 100px;
+	float: left;
+	border-radius: 50%;
+	box-shadow: 0 1px 2px rgba(0,0,0, .2);
+	margin-right: 20px;
+	height: 100px;
+}
+
+#profileEdit .profileImage .profileImageContainer img {
+	width: 100%;
+}
+
+#profileEdit .profileImage p {
+	content: "";
+	display: table;
+	clear: both;
+	width: 100%;
+}
+
+#profileEdit .profileImage input {
+	margin-top: 10px;
+}
+
 section.left, aside.sidebar {
 	display: block;
 	background: #fff;
@@ -1420,12 +1455,17 @@ aside.sidebar {
 	width: 21.5%;
 }
 
-aside.sidebar .user img {
+aside.sidebar .user .profileImageContainer {
 	display: block;
 	border-radius: 50%;
 	box-shadow: 0 1px 2px rgba(0,0,0, .2);
 	margin: 0 auto 10px;
-	max-width: 100%;
+	width: 162px;
+	height: 162px;
+}
+
+aside.sidebar .user .profileImageContainer img {
+	width: 100%;
 }
 
 aside.sidebar .user h2 {

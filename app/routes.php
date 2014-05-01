@@ -52,7 +52,7 @@ Route::get('/login', array('as' => 'login', function() {
 // Process Login
 Route::post('/login/process', array('as' => 'loginError', function(){
 	
-	$username = str_replace(' ', '', trim(strip_tags($_POST['username'])));
+	$username = strtolower(str_replace(' ', '', trim(strip_tags($_POST['username']))));
 	$password = str_replace(' ', '', trim(strip_tags($_POST['password'])));
 	
     if(Auth::attempt(array('uid' => $username, 'password' => $password))){
@@ -122,10 +122,10 @@ function clean($value){
 // Process Registration
 Route::post('/register/process', function(){
 		
-	$firstname = clean($_POST['firstname']);
-	$lastname = clean($_POST['lastname']);
-	$email = clean(strtolower($_POST['email']));
-	$username = clean(strtolower($_POST['username']));
+	$firstname = ucwords(strtolower(clean($_POST['firstname'])));
+	$lastname = ucwords(strtolower(clean($_POST['lastname'])));
+	$email = strtolower(clean(strtolower($_POST['email'])));
+	$username = strtolower(clean(strtolower($_POST['username'])));
 	$password = clean($_POST['password']);
 	$verifyPassword = clean($_POST['verifypassword']);
 	
@@ -379,7 +379,9 @@ Route::group(array('before' => 'auth'), function(){
 	// process edit profile request
 	Route::post('/edit/profile/process', function() {
 		
+		
 		$uid = Auth::user()->uid;
+		$profileImage = $_FILES['profileImage'];
 		$headline = trim(strip_tags($_POST['headline']));
 		$about = trim(strip_tags($_POST['about']));
 		$email = trim(strip_tags($_POST['email']));
@@ -412,6 +414,24 @@ Route::group(array('before' => 'auth'), function(){
 			return 'This is not a valid URL.';
 		});
 		
+		Validator::extend('width132', function($attribute, $value, $parameters) {
+			
+			$result = true;
+			if(!empty($value['tmp_name'])){
+				$size = getimagesize($value['tmp_name']);
+				
+				if($size[0] < '132' || $size[1] < '132'){
+					$result = false;
+				}
+			}
+			
+			return $result;
+		});
+		
+		Validator::replacer('width132', function($message, $attribute, $rule, $parameters) {
+			return 'Your image must be at least 132 x 132.';
+		});
+		
 		if(!empty($currentPassword) || !empty($newPassword) || !empty($verifyNewPassword)){
 			$validateCurrentPassword = 'required|checkPassword';
 			$validateNewPassword = 'required|min:6|max:64|same:verifyNewPassword|different:currentPassword';
@@ -426,6 +446,7 @@ Route::group(array('before' => 'auth'), function(){
 		
 		$validator = Validator::make(
 			array(
+				'profileImage' => $profileImage,
 				'headline' => $headline,
 				'about' => $about,
 				'email' => $email,
@@ -439,6 +460,7 @@ Route::group(array('before' => 'auth'), function(){
 				'verifyNewPassword' => $verifyNewPassword
 			),
 			array(
+				'profileImage' => 'image|width132',
 				'headline' => 'max:64',
 				'about' => '',
 				'email' => $validateEmail,
@@ -462,6 +484,20 @@ Route::group(array('before' => 'auth'), function(){
 			Session::put('post', $_POST);
 			$page = Redirect::to('/edit/profile');
 		}else{
+			
+			// upload photo
+			if(!empty($profileImage['tmp_name'])){
+				$ext = explode(".", $profileImage['name']);
+				$ext = $ext[count($ext) - 1];
+				is_uploaded_file($profileImage['tmp_name']);
+				$filename = Auth::user()->uid . '.' . $ext;
+				copy($_FILES['profileImage']['tmp_name'], getcwd() . '/img/userphotos/' . $filename);
+				
+				DB::update('UPDATE users SET photo = ? WHERE uid = ?', array($filename, $uid));
+				DB::insert('insert into lastModified (uid, tablename, rowid, columnname) values (?, ?, ?, ?)', array($uid, "users", Auth::user()->id, "photo"));
+			}
+			
+			
 			// pass
 			if($changeEmail){
 				// update email address

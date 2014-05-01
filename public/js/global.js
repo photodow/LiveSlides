@@ -10,7 +10,7 @@ var global = {};
 	form = $('form');
 	square = $('.square');
 	centVert = $('.centVert');
-	header = $('header');
+	header = $('body > header');
 	
 	
 	/* ====================================

@@ -14,10 +14,17 @@
 		$post = $_POST;
 	}
 	
+	if(Auth::user()->photo === null){
+		$profileImage = 'noProfileImg.png';
+	}else{
+		$profileImage = Auth::user()->photo;	
+	}
+	
 	$uid = Auth::user()->uid;
 	$firstname = Auth::user()->first;
 	$lastname = Auth::user()->last;
 	$headline = Auth::user()->headline;
+	$photo = Auth::user()->photo;
 	$email = Auth::user()->email;
 	$website = Auth::user()->website;
 	$facebook = Auth::user()->facebook;
@@ -34,7 +41,26 @@
 
 <section class="profileEdit left">
     <h2><i class="icon-pencil"></i> Edit Profile</h2>
-    <form action="/edit/profile/process" method="POST">
+    <form action="/edit/profile/process" method="POST" enctype="multipart/form-data">
+    	<fieldset class="profileImage">
+        	<legend><i class="icon-picture-o"></i> Profile Image</legend>
+            <p<?php if($error->has('profileImage')){ echo ' class="input error"'; } ?>>
+            	<span class="profileImageContainer">
+                	<img src="/img/userphotos/<?php echo $profileImage; ?>" alt="<?php echo $firstname + ' ' + $lastname; ?>'s Profile Image">
+                </span>
+                <label for="profileImage" class="centVert">
+                    Upload Photo <br />
+                    <span style="left: 487px; top: 44px;">
+						<?php if($error->has('profileImage')){ echo $error->first('profileImage'); }else if($photo === null){ ?>
+                        Please add a profile image of yourself.
+                        <?php }else{ ?>
+                        Looking good!
+                        <?php } ?>
+                 	</span>
+    				<input type="file" id="profileImage" name="profileImage" />
+           		</label>
+            </p>
+        </fieldset>
     	<fieldset>
         	<legend><i class="icon-user"></i> Describe Yourself</legend>
             <p<?php if($error->has('headline')){ echo ' class="input error"'; } ?>>

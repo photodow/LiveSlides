@@ -7,6 +7,12 @@
 		$success = false;
 	}
 	
+	if(Auth::user()->photo === null){
+		$profileImage = 'noProfileImg.png';
+	}else{
+		$profileImage = Auth::user()->photo;	
+	}
+	
 ?>
 
 <section class="profile left">
@@ -49,7 +55,9 @@
 	$numPresentations = DB::select('SELECT COUNT(id) as count FROM presentations WHERE uid = ?', array($uid));
 	$numPresentations = $numPresentations[0]->count;
 ?>
-    	<img src="/img/noProfileImg.png" alt="<?php echo $name; ?>'s Profile Image" />
+    	<div class="profileImageContainer">
+    		<img src="/img/userphotos/<?php echo $profileImage; ?>" alt="<?php echo $name; ?>'s Profile Image" />
+        </div>
         <div class="centVert">
             <h2><?php echo $name; ?></h2>
             <p class="headline"><?php echo $headline; ?></p>
