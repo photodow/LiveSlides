@@ -14,12 +14,23 @@
 
 // Home
 Route::get('/', array('as' => 'home', function() {
+			
+	if (Auth::check()){
+		$useruid = Auth::user()->uid;
+	}else{
+		$useruid = null;
+	}
+
+	$presentation = DB::select('SELECT * FROM presentations WHERE pid = ?', array('welcome'));
+	$presentation = $presentation[0];
+	$presenter = $presentation->uid;
+	
 	$page = View::make('page', array('page' => 'home', 'title' => 'Present Slides Live'))
 		->nest('localStyles', 'localStyle.home')
 		->nest('header', 'header')
-		->nest('pageContent', 'home')
+		->nest('pageContent', 'home', array('presentation' => $presentation->html))
 		->nest('footer', 'footer', array('style' => 'blue'))
-		->nest('localScripts', 'localScript.home');
+		->nest('localScripts', 'localScript.home', array('presenter' => $presenter, 'useruid' => $useruid));
 		
 	return $page;
 	

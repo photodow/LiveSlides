@@ -14,10 +14,10 @@
                     <ul>
             <li><a href="/" title="Home"><i class="icon-home"></i> Home</a></li>
 			<?php if(!Auth::check()) { ?>
-            <li><a href="/#features" title="Features"><i class="icon-star"></i> Features</a></li>
+            <li><a href="/#features" title="Features" data-scroll="true"><i class="icon-star"></i> Features</a></li>
             <?php } ?>
 			<?php if(!Auth::check()) { ?>
-            <li><a href="/#contact" title="Contact"><i class="icon-envelope"></i> Contact</a></li>
+            <li><a href="/#contact" title="Contact" data-scroll="true"><i class="icon-envelope"></i> Contact</a></li>
             <?php } ?>
             <?php if(Auth::check()){ ?>
         	<li><a href="/profile" class="profile" title="Click here to view your profile"><i class="icon-user"></i> Profile</a></li>

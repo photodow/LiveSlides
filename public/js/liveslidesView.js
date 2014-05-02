@@ -3,7 +3,7 @@
 	// go to current page in database every 1 second
 	if(global.get('lid')){
 		
-		var lastPage = 0;
+		var lastPage = 1;
 		
 		global.databaseCheckInterval = setInterval(function(){ // check database and update slide
 			

@@ -1,4 +1,7 @@
-global = {};
+
+if(typeof(global) === 'undefined'){
+	var global = {};
+}
 
 (function(window, document, undefined){
 	
@@ -104,6 +107,23 @@ global = {};
 		currentPageNum = currentPage.index() + 1;
 		nextPage = currentPage.next();
 		previousPage = currentPage.prev();
+		
+		var back, next;
+		
+		back = global.controls.find('.back');
+		next = global.controls.find('.next');
+		
+		if(currentPageNum === numSlides){
+			next.css('display', 'none');	
+		}else{
+			next.css('display', 'block');	
+		}
+		
+		if(currentPageNum === 1){
+			back.css('display', 'none');	
+		}else{
+			back.css('display', 'block');	
+		}
 		
 	};
 	

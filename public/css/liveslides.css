@@ -8,6 +8,7 @@ html, body {
 #presentation {
 	height: 100%;
 	width: 100%;
+	overflow: hidden;
 }
 
 #presentation h1 {
