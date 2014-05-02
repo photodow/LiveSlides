@@ -1058,7 +1058,7 @@ form .moreinfo li a:active {
 }
 
 /* profile */
-#profile .contentWrapper, #slides .contentWrapper, #profileEdit .contentWrapper {
+#profile .contentWrapper, #slides .contentWrapper, #profileEdit .contentWrapper, #create .contentWrapper {
 	max-width: 900px;
 	margin-left: auto;
 	margin-right: auto;
@@ -1069,7 +1069,7 @@ form .moreinfo li a:active {
 
 /* slides */
 
-#slides .contentWrapper > .slides, #profile .contentWrapper > .profile, #profileEdit .contentWrapper > .profileEdit {
+#slides .contentWrapper > .slides, #profile .contentWrapper > .profile, #profileEdit .contentWrapper > .profileEdit, #create .contentWrapper > .create {
 	padding-bottom: 0;
 }
 
@@ -1164,7 +1164,7 @@ form .moreinfo li a:active {
 	margin: 0 0 10px;
 }
 
-#profile .profile header h2 {
+#profile .profile h2 {
 	font-size: 2em;
 	color: #343434;
 	margin: 0;
@@ -1326,19 +1326,82 @@ form .moreinfo li a:active {
 	font-style: italic;
 }
 
-#profileEdit .profileEdit h2 {
+#profile .profile #presentations {
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+#profile .profile #presentations ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+
+#profile .profile #presentations ul li {
+	background: url('../img/section-shadow-right.png') no-repeat top left;
+}
+
+#profile .profile #presentations ul li:nth-child(even) {
+	background: url('../img/section-shadow-left.png') no-repeat top right;
+	background-color: #fafafa;
+}
+
+#profile .profile #presentations ul li:last-of-type {
+	height: 20px;
+	background-color: transparent!important;
+}
+
+#profile .profile #presentations ul li:hover {
+	background-color: #f5f5f5;
+}
+
+#profile .profile #presentations ul li a {
+	display: block;
+	text-decoration: none;
+	padding: 20px;
+	overflow: hidden;
+}
+
+#profile .profile #presentations ul li a span {
+	display: block;
+}
+
+#profile .profile #presentations ul li a span.title {
+	font-size: 1.4em;
+	margin: 0 0 10px;
+	font-weight: bold;
+	color: #515151;
+}
+
+#profile .profile #presentations ul li a span.description {
+	display: block;
+	margin-top: 0;
+	line-height: 1.45em;
+	text-align: left;
+	color: #515151;
+}
+
+#profile .profile #presentations ul li a span.keywords {
+	display: block;
+	color: #888;
+	float: right;
+	font-size: .8em;
+}
+
+#profileEdit .profileEdit h2, #create .create h2 {
 	font-size: 2em;
 	color: #343434;
 	margin: 0;
 }
 
-#profileEdit .profileEdit form {
+#profileEdit .profileEdit form, #create .create form {
 	width: auto;
 	margin: 0;
 	box-shadow: none;
 }
 
-#profileEdit .profileEdit form p:last-of-type {
+#profileEdit .profileEdit form p:last-of-type, #create .create form p:last-of-type {
 	margin-bottom: 20px;
 }
 
@@ -1350,31 +1413,31 @@ form .moreinfo li a:active {
 	color: #888;
 }
 
-#profileEdit .profileEdit form label span {
+#profileEdit .profileEdit form label span, #create .create form label span {
 	color: #fff;
 	background: #515151;
 	font-size: .85em;
 	top: 19px;
 }
 
-#profileEdit .profileEdit form label span:before {
+#profileEdit .profileEdit form label span:before, #create .create form label span:before {
 	color: #515151;
 }
 
-#profileEdit .profileEdit form p.input.error label span {
+#profileEdit .profileEdit form p.input.error label span, #create .create form p.input.error label span {
 	color: #FFD5D5;
 	background: #D54747;
 }
 
-#profileEdit .profileEdit form p.input.error label span:before {
+#profileEdit .profileEdit form p.input.error label span:before, #create .create form p.input.error label span:before {
 	color: #D54747;
 }
 
-#profileEdit .profileEdit form input.social {
+#profileEdit .profileEdit form input.social, #create .create form input.social {
 	width: 125px;
 }
 
-#profileEdit .profileEdit form input, #profileEdit .profileEdit form textarea {
+#profileEdit .profileEdit form input, #profileEdit .profileEdit form textarea, #create .create form input, #profileEdit .create form textarea {
 	font-weight: lighter;
 }
 
@@ -1382,7 +1445,7 @@ form .moreinfo li a:active {
 	height: 150px;
 }
 
-#profileEdit .profileEdit form fieldset {
+#profileEdit .profileEdit form fieldset, #create .create form fieldset {
 	border: 0;
 	border-top: 1px dashed #ddd;
 	padding: 0;
@@ -1390,25 +1453,25 @@ form .moreinfo li a:active {
 	margin-bottom: 40px;
 }
 
-#profileEdit .profileEdit form fieldset legend {
+#profileEdit .profileEdit form fieldset legend, #create .create form fieldset legend {
 	color: #aaa;
 	padding-right: 10px;
 	font-style: italic;
 }
 
-#profileEdit .profileEdit form fieldset p {
+#profileEdit .profileEdit form fieldset p, #create .create form fieldset p {
 	margin-left: 20px;
 	margin-top: 20px;
 	font-size: .8em;
 }
 
-#profileEdit .profileEdit form p {
+#profileEdit .profileEdit form p, #create .create form p {
 
 	position: relative;
 	
 }
 
-#profileEdit .profileEdit form input {
+#profileEdit .profileEdit form input, #create .create form input {
 	width: auto;
 	padding: 7px;
 }
@@ -1443,10 +1506,13 @@ section.left, aside.sidebar {
 	min-height: 100px;
 	border-radius: 3px;
 	box-shadow: 0 1px 2px rgba(0,0,0, .2);
-	margin-top: 85px;
 	padding: 1.75%;
 	box-sizing: border-box;
-	margin-bottom: 42px;
+	margin-bottom: 25px;
+}
+
+section.left:first-of-type, aside.sidebar:first-of-type {
+	margin-top: 85px;
 }
 
 section.left {
@@ -1495,7 +1561,7 @@ aside.sidebar nav ul li a {
 	border-radius: 3px;
 }
 
-#slides aside.sidebar nav ul li a.slides, #profile aside.sidebar nav ul li a.profile, #profileEdit aside.sidebar nav ul li a.profileEdit {
+#slides aside.sidebar nav ul li a.slides, #profile aside.sidebar nav ul li a.profile, #profileEdit aside.sidebar nav ul li a.profileEdit, #create aside.sidebar nav ul li a.create {
 	color: #008aba;
 	background: #eaeaea;
 }
@@ -1515,4 +1581,8 @@ aside.sidebar nav:hover ul li a {
 aside.sidebar nav ul li a:hover {
 	color: #008aba;
 	background: #eaeaea!important;
+}
+
+#create .create .html, #create .create .css {
+	height: 200px;	
 }

@@ -36,6 +36,9 @@
             <?php if(Auth::check()){ ?>
         	<li><a href="/edit/profile" class="profileEdit" title="Click here to edit your profile"><i class="icon-pencil"></i> Edit Profile</a></li>
             <?php } ?>
+            <?php if(Auth::check()){ ?>
+        	<li><a href="/create" class="create" title="Click here to create a presentation"><i class="icon-plus"></i> Create Slide</a></li>
+            <?php } ?>
         	<?php if(Auth::check()){ ?>
             <li><a href="/logout" title="Click here to logout"><i class="icon-sign-out"></i> Logout</a></li>
             <?php } ?>

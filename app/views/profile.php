@@ -9,6 +9,7 @@
 	
 ?>
 
+
 <section class="profile left">
 	<?php if($success){ ?>
 	<p class="success"><i class="icon-check" style="font-size: 1.25em;"></i> <?php echo $success; ?></p>
@@ -54,6 +55,9 @@
 	// number of presentations
 	$numPresentations = DB::select('SELECT COUNT(id) as count FROM presentations WHERE uid = ?', array($uid));
 	$numPresentations = $numPresentations[0]->count;
+	
+	// presentations
+	$presentations = DB::select('SELECT title, description, pid, keywords FROM presentations WHERE uid = ?', array($uid));
 ?>
     	<div class="profileImageContainer">
     		<img src="/img/userphotos/<?php echo $profileImage; ?>" alt="<?php echo $name; ?>'s Profile Image" />
@@ -116,3 +120,22 @@
 </section>
 
 <?php echo $sidebar; ?>
+
+
+<section class="profile left">
+	<h2><i class="icon-youtube-play"></i> Presentations</h2>
+    <article id="presentations">
+        <ul>
+        <?php foreach ($presentations as $presentation){ ?>
+            <li>
+                <a href="/slide/<?php echo $presentation->pid; ?>" title="Click here to view <?php echo $presentation->title; ?>">
+                    <span class="title"><?php echo $presentation->title; ?></span>
+                    <span class="description"><?php echo $presentation->description; ?></span>
+                    <span class="keywords"><?php echo $presentation->keywords; ?></span>
+                </a>
+            </li>
+        <?php } ?>
+        	<li></li>
+        </ul>
+    </article>
+</section>

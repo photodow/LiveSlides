@@ -14,7 +14,7 @@
 				success: function(data){
 					if(data.hasOwnProperty('currentPage')){ // get current page
 					
-						var currentPage = data.currentPage;
+						var currentPage = Number(data.currentPage);
 						
 						if(lastPage !== currentPage){ // prevent going to page every interval
 							

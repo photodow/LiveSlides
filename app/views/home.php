@@ -1,5 +1,7 @@
 <section id="welcome" class="welcome">
-	<?php echo $presentation; ?>
+	<section id="presentation">
+		<?php echo $presentation; ?>
+    </section>
     <nav id="controls">
         <ul>
             <li class="back">

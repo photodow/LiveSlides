@@ -613,9 +613,54 @@ Route::group(array('before' => 'auth'), function(){
 		$page = View::make('page', array('page' => 'create', 'title' => 'Create Slide'))
 			->nest('localStyles', 'localStyle.create')
 			->nest('header', 'header')
-			->nest('pageContent', 'create')
+			->nest('pageContent', 'create', array('sidebar' => View::make('sidebar')))
 			->nest('footer', 'footer', array('style' => 'dark'))
 			->nest('localScripts', 'localScript.create');
+			
+		return $page;
+		
+	});
+	
+	// Create process
+	Route::post('/create/process', function() {
+		
+		$title = trim(strip_tags($_POST['title']));
+		$description = trim(strip_tags($_POST['description']));
+		$keywords = trim(strip_tags($_POST['keywords']));
+		$html = trim($_POST['html']);
+		
+		$validator = Validator::make(
+			array(
+				'title' => $title,
+				'description' => $description,
+				'keywords' => $keywords,
+				'html' => $html
+			),
+			array(
+				'title' => 'required|max:32',
+				'description' => 'required|max:280',
+				'keywords' => 'max:64',
+				'html' => 'required'
+			)
+		);
+		
+		$messages = $validator->messages();
+		
+		if ($validator->fails()){
+			
+			Session::put('error', $messages);
+			Session::put('post', $_POST);
+			$page = Redirect::to('/create');
+			
+		}else{
+			
+			DB::insert('INSERT INTO presentations (uid, pid, title, description, keywords, html) values (?, ?, ?, ?, ?, ?)', array(Auth::user()->uid, uniqid(), $title, $description, $keywords, $html));
+			
+			// redirect with success
+			Session::put('success', 'You\'ve successfully created a presentation!');
+			$page = Redirect::to('/profile');
+			
+		}
 			
 		return $page;
 		

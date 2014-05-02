@@ -42,9 +42,16 @@ if(typeof(global) === 'undefined'){
 		
 		if(Number(page) > 0 && Number(page) <= numSlides){
 			
-			var nextPage;
+			var nextPage, reverseValue;
 			
-			nextPage = presentation.find('article').eq(page - 1);
+			nextPageNum = page - 1;
+			nextPage = presentation.find('article').eq(nextPageNum);
+			
+			if(nextPageNum < currentPageNum){
+				reverseValue = true;
+			}else{
+				reverseValue = false;	
+			}
 			
 			transition.slideFade(
 				nextPage,
@@ -52,6 +59,7 @@ if(typeof(global) === 'undefined'){
 				slide.getDelay(nextPage),
 				slide.getSpeed(nextPage),
 				slide.getEasing(nextPage),
+				reverseValue,
 				function(){
 					currentPage.removeClass('active').removeAttr('style');
 					nextPage.addClass('active').removeAttr('style');
@@ -65,7 +73,8 @@ if(typeof(global) === 'undefined'){
 				slide.getTransitionOut(currentPage),
 				slide.getDelay(nextPage),
 				slide.getSpeed(nextPage),
-				slide.getEasing(nextPage)
+				slide.getEasing(nextPage),
+				reverseValue
 			);
 			
 		}
@@ -166,6 +175,7 @@ if(typeof(global) === 'undefined'){
 				slide.getDelay(nextPage),
 				slide.getSpeed(nextPage),
 				slide.getEasing(nextPage),
+				false,
 				function(){
 					currentPage.removeClass('active').removeAttr('style');
 					nextPage.addClass('active').removeAttr('style');
@@ -179,7 +189,8 @@ if(typeof(global) === 'undefined'){
 				slide.getTransitionOut(currentPage),
 				slide.getDelay(nextPage),
 				slide.getSpeed(nextPage),
-				slide.getEasing(nextPage)
+				slide.getEasing(nextPage),
+				false
 			);
 		}
 		
@@ -195,6 +206,7 @@ if(typeof(global) === 'undefined'){
 				slide.getDelay(previousPage),
 				slide.getSpeed(previousPage),
 				slide.getEasing(previousPage),
+				true,
 				function(){
 					currentPage.removeClass('active').removeAttr('style');
 					previousPage.addClass('active').removeAttr('style');
@@ -208,7 +220,8 @@ if(typeof(global) === 'undefined'){
 				slide.getTransitionOut(currentPage),
 				slide.getDelay(previousPage),
 				slide.getSpeed(previousPage),
-				slide.getEasing(previousPage)
+				slide.getEasing(previousPage),
+				true
 			);
 			
 		}
@@ -224,7 +237,7 @@ if(typeof(global) === 'undefined'){
 	
 	transition.status = false;
 	   
-	transition.slideFade = function(obj, type, delay, speed, easing, callback){
+	transition.slideFade = function(obj, type, delay, speed, easing, reverse, callback){
 		
 		obj = obj || $('.active');
 		delay = delay || 0;
@@ -232,6 +245,7 @@ if(typeof(global) === 'undefined'){
 		easing = easing || 'easeOutCubic';
 		callback = callback || function(){};
 		type = type || {};
+		reverse = reverse || false;
 		
 		var prepElement, prepAnimation, that, left, top, height, width;
 		
@@ -269,36 +283,76 @@ if(typeof(global) === 'undefined'){
 				
 				switch (type.slide) {
 					case 'inUp':
-						prepElement.top = height + 'px';
-						prepAnimation.top = top;
+						if(reverse){
+							prepElement.top = '-' + height + 'px';
+							prepAnimation.top = top;
+						}else{
+							prepElement.top = height + 'px';
+							prepAnimation.top = top;
+						}
 						break;
 					case 'inRight':
-						prepElement.left = '-' + width + 'px';
-						prepAnimation.left = left;
+						if(reverse){
+							prepElement.left = width + 'px';
+							prepAnimation.left = left;
+						}else{
+							prepElement.left = '-' + width + 'px';
+							prepAnimation.left = left;
+						}
 						break;
 					case 'inDown':
-						prepElement.top = '-' + height + 'px';
-						prepAnimation.top = top;
+						if(reverse){
+							prepElement.top = height + 'px';
+							prepAnimation.top = top;
+						}else{
+							prepElement.top = '-' + height + 'px';
+							prepAnimation.top = top;
+						}
 						break;
 					case 'inLeft':
-						prepElement.left = width + 'px';
-						prepAnimation.left = left + 'px';
+						if(reverse){
+							prepElement.left = '-' + width + 'px';
+							prepAnimation.left = left + 'px';
+						}else{
+							prepElement.left = width + 'px';
+							prepAnimation.left = left + 'px';
+						}
 						break;
 					case 'outUp':
-						prepElement.top = top;
-						prepAnimation.top = '-' + height + 'px';
+						if(reverse){
+							prepElement.top = top;
+							prepAnimation.top = height + 'px';
+						}else{
+							prepElement.top = top;
+							prepAnimation.top = '-' + height + 'px';
+						}
 						break;
 					case 'outRight':
-						prepElement.left = left;
-						prepAnimation.left = width + 'px';
+						if(reverse){
+							prepElement.left = left;
+							prepAnimation.left = '-' + width + 'px';
+						}else{
+							prepElement.left = left;
+							prepAnimation.left = width + 'px';
+						}
 						break;
 					case 'outDown':
-						prepElement.top = top;
-						prepAnimation.top = height + 'px';
+						if(reverse){
+							prepElement.top = top;
+							prepAnimation.top = '-' + height + 'px';
+						}else{
+							prepElement.top = top;
+							prepAnimation.top = height + 'px';
+						}
 						break;
 					case 'outLeft':
-						prepElement.left = left;
-						prepAnimation.left = '-' + width + 'px';
+						if(reverse){
+							prepElement.left = left;
+							prepAnimation.left = width + 'px';
+						}else{
+							prepElement.left = left;
+							prepAnimation.left = '-' + width + 'px';
+						}
 						break;
 				}
 				
